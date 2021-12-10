@@ -6,7 +6,7 @@ defmodule Fleature.Repo.Migrations.InitialTables do
       add(:name, :string)
     end
 
-    create(table(:organizations_users)) do
+    create(table(:users_organizations)) do
       add(:user_id, references(:users))
       add(:organization_id, references(:organizations))
     end

@@ -1,4 +1,4 @@
-defmodule Fleature.Accounts.UserToken do
+defmodule Fleature.Schemas.UserToken do
   use Ecto.Schema
   import Ecto.Query
 
@@ -16,7 +16,7 @@ defmodule Fleature.Accounts.UserToken do
     field :token, :binary
     field :context, :string
     field :sent_to, :string
-    belongs_to :user, Fleature.Accounts.User
+    belongs_to :user, Fleature.Schemas.User
 
     timestamps(updated_at: false)
   end
@@ -42,7 +42,7 @@ defmodule Fleature.Accounts.UserToken do
   """
   def build_session_token(user) do
     token = :crypto.strong_rand_bytes(@rand_size)
-    {token, %Fleature.Accounts.UserToken{token: token, context: "session", user_id: user.id}}
+    {token, %Fleature.Schemas.UserToken{token: token, context: "session", user_id: user.id}}
   end
 
   @doc """
@@ -85,7 +85,7 @@ defmodule Fleature.Accounts.UserToken do
     hashed_token = :crypto.hash(@hash_algorithm, token)
 
     {Base.url_encode64(token, padding: false),
-     %Fleature.Accounts.UserToken{
+     %Fleature.Schemas.UserToken{
        token: hashed_token,
        context: context,
        sent_to: sent_to,
@@ -162,17 +162,17 @@ defmodule Fleature.Accounts.UserToken do
   Returns the token struct for the given token value and context.
   """
   def token_and_context_query(token, context) do
-    from Fleature.Accounts.UserToken, where: [token: ^token, context: ^context]
+    from Fleature.Schemas.UserToken, where: [token: ^token, context: ^context]
   end
 
   @doc """
   Gets all tokens for the given user for the given contexts.
   """
   def user_and_contexts_query(user, :all) do
-    from t in Fleature.Accounts.UserToken, where: t.user_id == ^user.id
+    from t in Fleature.Schemas.UserToken, where: t.user_id == ^user.id
   end
 
   def user_and_contexts_query(user, [_ | _] = contexts) do
-    from t in Fleature.Accounts.UserToken, where: t.user_id == ^user.id and t.context in ^contexts
+    from t in Fleature.Schemas.UserToken, where: t.user_id == ^user.id and t.context in ^contexts
   end
 end

@@ -4,7 +4,9 @@ defmodule Fleature.AccountsTest do
   alias Fleature.Accounts
 
   import Fleature.AccountsFixtures
-  alias Fleature.Accounts.{User, UserToken}
+
+  alias Fleature.Schemas.User
+  alias Fleature.Schemas.UserToken
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do

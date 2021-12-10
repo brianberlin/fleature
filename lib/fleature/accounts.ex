@@ -6,7 +6,9 @@ defmodule Fleature.Accounts do
   import Ecto.Query, warn: false
   alias Fleature.Repo
 
-  alias Fleature.Accounts.{User, UserToken, UserNotifier}
+  alias Fleature.Accounts.UserNotifier
+  alias Fleature.Schemas.User
+  alias Fleature.Schemas.UserToken
 
   ## Database getters
 

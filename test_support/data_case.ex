@@ -24,6 +24,7 @@ defmodule Fleature.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Fleature.DataCase
+      import Fleature.Factory
     end
   end
 

@@ -1,12 +1,14 @@
-defmodule Fleature.Accounts.User do
+defmodule Fleature.Schemas.User do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "users" do
-    field :email, :string
-    field :password, :string, virtual: true, redact: true
-    field :hashed_password, :string, redact: true
-    field :confirmed_at, :naive_datetime
+    field(:email, :string)
+    field(:password, :string, virtual: true, redact: true)
+    field(:hashed_password, :string, redact: true)
+    field(:confirmed_at, :naive_datetime)
+
+    many_to_many(:organizations, Fleature.Schemas.Organization, join_through: "organizations_users")
 
     timestamps()
   end
@@ -117,7 +119,7 @@ defmodule Fleature.Accounts.User do
   If there is no user or the user doesn't have a password, we call
   `Bcrypt.no_user_verify/0` to avoid timing attacks.
   """
-  def valid_password?(%Fleature.Accounts.User{hashed_password: hashed_password}, password)
+  def valid_password?(%Fleature.Schemas.User{hashed_password: hashed_password}, password)
       when is_binary(hashed_password) and byte_size(password) > 0 do
     Bcrypt.verify_pass(password, hashed_password)
   end

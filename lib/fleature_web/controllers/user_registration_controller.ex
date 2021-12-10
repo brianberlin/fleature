@@ -2,7 +2,7 @@ defmodule FleatureWeb.UserRegistrationController do
   use FleatureWeb, :controller
 
   alias Fleature.Accounts
-  alias Fleature.Accounts.User
+  alias Fleature.Schemas.User
   alias FleatureWeb.UserAuth
 
   def new(conn, _params) do

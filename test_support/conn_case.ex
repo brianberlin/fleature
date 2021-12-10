@@ -24,7 +24,7 @@ defmodule FleatureWeb.ConnCase do
       import Phoenix.ConnTest
       import FleatureWeb.ConnCase
       import Phoenix.LiveViewTest
-
+      import Fleature.Factory
       alias FleatureWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
@@ -62,5 +62,7 @@ defmodule FleatureWeb.ConnCase do
     conn
     |> Phoenix.ConnTest.init_test_session(%{})
     |> Plug.Conn.put_session(:user_token, token)
+    |> Plug.Conn.put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
+
   end
 end

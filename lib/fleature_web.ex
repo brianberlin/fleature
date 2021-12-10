@@ -62,6 +62,7 @@ defmodule FleatureWeb do
   def components do
     quote do
       import Phoenix.LiveView.Helpers
+      alias FleatureWeb.Router.Helpers, as: Routes
     end
   end
 
