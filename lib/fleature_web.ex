@@ -59,6 +59,12 @@ defmodule FleatureWeb do
     end
   end
 
+  def components do
+    quote do
+      import Phoenix.LiveView.Helpers
+    end
+  end
+
   def router do
     quote do
       use Phoenix.Router
@@ -90,6 +96,8 @@ defmodule FleatureWeb do
       import FleatureWeb.ErrorHelpers
       import FleatureWeb.Gettext
       alias FleatureWeb.Router.Helpers, as: Routes
+
+      import FleatureWeb.Components.Type
     end
   end
 
