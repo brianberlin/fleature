@@ -7,6 +7,7 @@ defmodule Fleature.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
+      test_paths: ["lib"],
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -25,7 +26,7 @@ defmodule Fleature.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test_support"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -49,7 +50,8 @@ defmodule Fleature.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:mix_test_watch, "~> 1.1"}
     ]
   end
 
@@ -65,7 +67,9 @@ defmodule Fleature.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "test.watch": ["ecto.create --quiet", "ecto.migrate --quiet", "test.watch"],
+      "assets.deploy": ["esbuild default --minify", "phx.digest"],
+      checks: ["credo --strict", "format --check-formatted"]
     ]
   end
 end

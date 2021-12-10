@@ -23,6 +23,7 @@ defmodule FleatureWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import FleatureWeb.ConnCase
+      import Phoenix.LiveViewTest
 
       alias FleatureWeb.Router.Helpers, as: Routes
 
