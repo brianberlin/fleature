@@ -20,7 +20,7 @@ defmodule FleatureWeb.Router do
   scope "/", FleatureWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", LiveViews.Home
   end
 
   # Other scopes may use custom stacks.
