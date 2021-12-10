@@ -51,7 +51,7 @@ defmodule Fleature.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:mix_test_watch, "~> 1.1"},
+      {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
       {:ex_machina, "~> 2.7"}
     ]
   end

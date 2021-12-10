@@ -5,8 +5,20 @@ defmodule Fleature.Organizations do
   alias Fleature.Schemas.UsersOrganization
   alias Fleature.Repo
 
+  def insert_organization(user, attrs) do
+    %Organization{}
+    |> Organization.insert_changeset(user, attrs)
+    |> Repo.insert()
+  end
+
   def query_organizations(params) do
     apply_filters(Organization, params)
+  end
+
+  def get_organization(params \\ []) do
+    params
+    |> query_organizations()
+    |> Repo.one()
   end
 
   def list_organizations(params \\ []) when is_list(params) do
@@ -15,7 +27,6 @@ defmodule Fleature.Organizations do
     |> default_order()
     |> Repo.all()
   end
-
 
   defp filter(query, {:id, id}) do
     where(query, id: ^id)

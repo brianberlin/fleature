@@ -21,7 +21,7 @@ defmodule FleatureWeb.Router do
   scope "/", FleatureWeb do
     pipe_through :browser
 
-    live "/", LiveViews.Home
+    live "/", HomeLive, :index
   end
 
   # Other scopes may use custom stacks.
@@ -74,6 +74,11 @@ defmodule FleatureWeb.Router do
 
   scope "/", FleatureWeb do
     pipe_through [:browser, :require_authenticated_user]
+
+    live_session :default do
+      live "/organizations/create", OrganizationsLive, :create
+      live "/organizations/:id", OrganizationsLive, :view
+    end
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update

@@ -1,7 +1,8 @@
 defmodule FleatureWeb.Components.Type do
   @moduledoc false
   use FleatureWeb, :components
-
+  import Phoenix.HTML.Form
+  import FleatureWeb.ErrorHelpers
 
   def h1(assigns) do
     ~H"""
@@ -33,11 +34,37 @@ defmodule FleatureWeb.Components.Type do
     """
   end
 
-  def button(assigns) do
+  def a(assigns) do
     ~H"""
-    <%= live_patch(to: @path) do %>
+    <%= live_patch(to: @path, class: Map.get(assigns, :class)) do %>
       <%= render_slot(@inner_block) %>
     <% end %>
+    """
+  end
+
+  def submit_button(assigns) do
+    ~H"""
+    <%= submit do %>
+      <%= render_slot(@inner_block) %>
+    <% end %>
+    """
+  end
+
+  def text_input(assigns) do
+    ~H"""
+    <%= label @f, @key %>
+    <%= text_input @f, @key %>
+    <%= error_tag @f, @key %>
+    """
+  end
+
+  def breadcrumbs(assigns) do
+    ~H"""
+    <div>
+      <%= for link <- @links do  %>
+        <.a path={link.path}><%= link.title  %></.a>
+      <% end %>
+    </div>
     """
   end
 end
