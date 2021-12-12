@@ -3,11 +3,9 @@ defmodule Fleature.Schemas.Project do
 
   import Ecto.Changeset
 
-  alias Fleature.Schemas.Organization
-
   schema "projects" do
     field(:name, :string)
-    belongs_to(:organization, Organization)
+    belongs_to(:organization, Fleature.Schemas.Organization)
     has_many(:users, through: [:organization, :users])
   end
 

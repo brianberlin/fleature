@@ -5,7 +5,7 @@ defmodule FleatureWeb.Organizations.ViewTest do
 
   test "view organization", %{conn: conn, user: user} do
     %{organization: organization} = with_organization(user)
-    project = insert(:project, organization: organization)
+    insert(:project, organization: organization)
     {:ok, view, html} = live(conn, Routes.organizations_path(conn, :view, organization))
     assert html =~ organization.name
 

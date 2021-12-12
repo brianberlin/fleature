@@ -16,6 +16,12 @@ defmodule FleatureWeb.Components.Type do
     """
   end
 
+  def h3(assigns) do
+    ~H"""
+    <h3><%= render_slot(@inner_block) %></h3>
+    """
+  end
+
   def p(assigns) do
     ~H"""
     <p><%= render_slot(@inner_block) %></p>

@@ -12,10 +12,21 @@ defmodule FleatureWeb.Projects.CreateTest do
 
     view
     |> element("form")
-    |> render_submit(%{project: %{name: "Test", organization_id: organization.id}})
+    |> render_change(%{project: %{name: "Test", organization_id: organization.id}})
 
-    # [project] = Fleature.Projects.list_projects([])
+    html =
+      view
+      |> element("form")
+      |> render_submit(%{project: %{name: "", organization_id: organization.id}})
 
-    # assert_patched(view, Routes.projects_path(FleatureWeb.Endpoint, :view, project))
+    assert html =~ "can&#39;t be blank"
+
+    view
+    |> element("form")
+    |> render_submit(%{project: %{name: "Test2", organization_id: organization.id}})
+
+    [project] = Fleature.Projects.list_projects([])
+
+    assert_patch(view, Routes.projects_path(FleatureWeb.Endpoint, :view, organization, project))
   end
 end

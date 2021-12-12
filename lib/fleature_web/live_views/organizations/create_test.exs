@@ -11,10 +11,18 @@ defmodule FleatureWeb.Organizations.CreateTest do
 
     view
     |> element("form")
+    |> render_change(%{organization: %{name: "Test"}})
+
+    view
+    |> element("form")
+    |> render_submit(%{organization: %{name: ""}})
+
+    view
+    |> element("form")
     |> render_submit(%{organization: %{name: "Test"}})
 
     [organization] = Fleature.Organizations.list_organizations([])
 
-    assert_patched(view, Routes.organizations_path(FleatureWeb.Endpoint, :view, organization))
+    assert_patch(view, Routes.organizations_path(FleatureWeb.Endpoint, :view, organization))
   end
 end
