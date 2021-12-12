@@ -11,6 +11,12 @@ defmodule Fleature.Schemas.Organization do
     many_to_many(:users, Fleature.Schemas.User, join_through: "users_organizations")
   end
 
+  # def changeset(organization, attrs \\ %{}) do
+  #   organization
+  #   |> cast(attrs, [:name])
+  #   |> validate_required([:name])
+  # end
+
   def insert_changeset(organization, user, attrs \\ %{}) do
     organization
     |> Repo.preload(:users)

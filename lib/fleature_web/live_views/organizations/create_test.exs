@@ -11,10 +11,6 @@ defmodule FleatureWeb.Organizations.CreateTest do
 
     view
     |> element("form")
-    |> render_change()
-
-    view
-    |> element("form")
     |> render_submit(%{organization: %{name: "Test"}})
 
     [organization] = Fleature.Organizations.list_organizations([])

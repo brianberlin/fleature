@@ -1,9 +1,11 @@
-defmodule FleatureWeb.OrganizationsLive do
+defmodule FleatureWeb.ProjectsLive do
   @moduledoc false
+
   use FleatureWeb, :live_view
 
-  alias Fleature.Organizations
   alias Fleature.Accounts
+  alias Fleature.Organizations
+  alias Fleature.Projects
 
   def mount(_, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
@@ -12,21 +14,27 @@ defmodule FleatureWeb.OrganizationsLive do
 
   def render(assigns) do
     ~H"""
+    <.h1>Projects</.h1>
     <%= case @live_action do %>
-    <% :create -> %>
-      <.live_component
-        module={FleatureWeb.OrganizationsLive.Create}
-        id="create"
-        user={@current_user}
-      />
     <% :view -> %>
       <.live_component
-        module={FleatureWeb.OrganizationsLive.View}
+        module={FleatureWeb.ProjectsLive.View}
         id="view"
+        project={@project}
+      />
+    <% :create -> %>
+      <.live_component
+        module={FleatureWeb.ProjectsLive.Create}
+        id="create"
         organization={@organization}
       />
     <% end %>
     """
+  end
+
+  def handle_params(%{"project_id" => id}, _url, socket) do
+    project = Projects.get_project([id: id], [:organization])
+    {:noreply, assign(socket, :project, project)}
   end
 
   def handle_params(%{"organization_id" => id}, _url, socket) do

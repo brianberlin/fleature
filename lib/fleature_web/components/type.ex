@@ -58,6 +58,12 @@ defmodule FleatureWeb.Components.Type do
     """
   end
 
+  def hidden_input(assigns) do
+    ~H"""
+    <%= hidden_input(@f, @key, value: @value) %>
+    """
+  end
+
   def breadcrumbs(assigns) do
     ~H"""
     <div>

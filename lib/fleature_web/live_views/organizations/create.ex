@@ -5,7 +5,14 @@ defmodule FleatureWeb.OrganizationsLive.Create do
   alias Fleature.Schemas.Organization
   alias Fleature.Organizations
 
-  def mount(socket) do
+  def update(assigns, socket) do
+    changeset = Organization.insert_changeset(%Organization{}, assigns.user)
+
+    socket =
+      socket
+      |> assign(:changeset, changeset)
+      |> assign(:user, assigns.user)
+
     {:ok, socket}
   end
 
@@ -13,16 +20,12 @@ defmodule FleatureWeb.OrganizationsLive.Create do
     ~H"""
     <div>
       <.h1>Create an Organization</.h1>
-      <.form class="organization-form" let={f} for={changeset(@user)} phx-change="validate" phx-submit="save" phx-target={@myself}>
+      <.form class="organization-form" let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-target={@myself}>
         <.text_input f={f} key={:name} />
         <.submit_button>Save</.submit_button>
       </.form>
     </div>
     """
-  end
-
-  defp changeset(user) do
-    Organization.insert_changeset(%Organization{}, user)
   end
 
   def handle_event("validate", %{"organization" => params}, socket) do
@@ -37,8 +40,6 @@ defmodule FleatureWeb.OrganizationsLive.Create do
         {:noreply, push_patch(socket, to: path)}
 
       {:error, changeset} ->
-        IO.inspect(changeset)
-
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end

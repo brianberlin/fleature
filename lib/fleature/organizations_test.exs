@@ -5,8 +5,8 @@ defmodule Fleature.OrganizationsTest do
 
   describe "list_organizations" do
     test "default" do
-      %{organization: %{id: id1}} = insert(:user) |> with_organization()
-      %{organization: %{id: id2}} = insert(:user) |> with_organization()
+      %{organization: %{id: id1}} = insert(:user) |> with_organization(%{name: "a"})
+      %{organization: %{id: id2}} = insert(:user) |> with_organization(%{name: "b"})
       [%{id: ^id1}, %{id: ^id2}] = list_organizations([])
     end
 
@@ -21,5 +21,6 @@ defmodule Fleature.OrganizationsTest do
     user = insert(:user)
     assert {:ok, _organization} = insert_organization(user, %{name: "Test"})
     assert {:error, _changeset} = insert_organization(user, %{name: ""})
+    assert {:error, _changeset} = insert_organization(nil, %{name: "Test"})
   end
 end

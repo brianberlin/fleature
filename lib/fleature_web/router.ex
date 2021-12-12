@@ -77,7 +77,9 @@ defmodule FleatureWeb.Router do
 
     live_session :default do
       live "/organizations/create", OrganizationsLive, :create
-      live "/organizations/:id", OrganizationsLive, :view
+      live "/organizations/:organization_id", OrganizationsLive, :view
+      live "/organizations/:organization_id/projects/create", ProjectsLive, :create
+      live "/organizations/:organization_id/projects/:project_id", ProjectsLive, :view
     end
 
     get "/users/settings", UserSettingsController, :edit
