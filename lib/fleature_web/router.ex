@@ -79,14 +79,22 @@ defmodule FleatureWeb.Router do
       live "/organizations/create", OrganizationsLive, :create
       live "/organizations/:organization_id", OrganizationsLive, :view
       live "/organizations/:organization_id/projects/create", ProjectsLive, :create
-      live "/organizations/:organization_id/projects/:project_id", ProjectsLive, :view
+      live "/projects/:project_id", ProjectsLive, :view
 
-      live "/organizations/:organization_id/projects/:project_id/environments/create",
+      live "/projects/:project_id/environments/create",
            EnvironmentsLive,
            :create
 
-      live "/organizations/:organization_id/projects/:project_id/environments/:environment_id",
+      live "/environments/:environment_id",
            EnvironmentsLive,
+           :view
+
+      live "/environments/:environment_id/feature_flags/create",
+           FeatureFlagsLive,
+           :create
+
+      live "/feature_flags/:feature_flag_id",
+           FeatureFlagsLive,
            :view
     end
 

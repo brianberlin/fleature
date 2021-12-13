@@ -14,7 +14,6 @@ defmodule FleatureWeb.ProjectsLive do
 
   def render(assigns) do
     ~H"""
-    <.h1>Projects</.h1>
     <%= case @live_action do %>
     <% :view -> %>
       <.live_component

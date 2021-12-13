@@ -19,10 +19,7 @@ defmodule FleatureWeb.HomeLiveTest do
       |> element(".create-organization")
       |> render_click()
 
-      assert_patched(
-        view,
-        Routes.organizations_path(FleatureWeb.Endpoint, :create)
-      )
+      assert_patched(view, Routes.organizations_path(FleatureWeb.Endpoint, :create))
     end
   end
 end

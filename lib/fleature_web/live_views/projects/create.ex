@@ -40,7 +40,7 @@ defmodule FleatureWeb.ProjectsLive.Create do
   def handle_event("save", %{"project" => params}, socket) do
     case Projects.insert_project(params) do
       {:ok, project} ->
-        path = Routes.projects_path(FleatureWeb.Endpoint, :view, project.organization_id, project)
+        path = Routes.projects_path(FleatureWeb.Endpoint, :view, project)
         {:noreply, push_patch(socket, to: path)}
 
       {:error, changeset} ->

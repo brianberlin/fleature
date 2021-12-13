@@ -98,7 +98,7 @@ defmodule FleatureWeb do
       import FleatureWeb.Gettext
       alias FleatureWeb.Router.Helpers, as: Routes
 
-      import FleatureWeb.Components.Type
+      import FleatureWeb.Components
     end
   end
 

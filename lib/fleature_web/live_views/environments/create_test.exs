@@ -7,16 +7,7 @@ defmodule FleatureWeb.EnvironmentsLive.CreateTest do
     project = insert(:project)
     organization = project.organization
 
-    {:ok, view, html} =
-      live(
-        conn,
-        Routes.environments_path(
-          conn,
-          :create,
-          organization,
-          project
-        )
-      )
+    {:ok, view, html} = live(conn, Routes.environments_path(conn, :create, project))
 
     assert html =~ "Create an Environment"
     assert html =~ "Name"
@@ -33,7 +24,7 @@ defmodule FleatureWeb.EnvironmentsLive.CreateTest do
 
     assert_patch(
       view,
-      Routes.environments_path(FleatureWeb.Endpoint, :view, organization, project, environment)
+      Routes.environments_path(FleatureWeb.Endpoint, :view, environment)
     )
   end
 end

@@ -19,10 +19,12 @@ defmodule FleatureWeb.OrganizationsLive.View do
     ~H"""
     <div>
       <.h1><%= @organization.name %></.h1>
+      <.breadcrumbs organization={@organization} />
+      <.h2>Projects</.h2>
       <.ul>
         <%= for project <- @projects do %>
           <.li>
-            <.a path={Routes.projects_path(FleatureWeb.Endpoint, :view, @organization, project)}>
+            <.a path={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
               <%= project.name %>
             </.a>
           </.li>

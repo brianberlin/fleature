@@ -27,6 +27,6 @@ defmodule FleatureWeb.Projects.CreateTest do
 
     [project] = Fleature.Projects.list_projects([])
 
-    assert_patch(view, Routes.projects_path(FleatureWeb.Endpoint, :view, organization, project))
+    assert_patch(view, Routes.projects_path(FleatureWeb.Endpoint, :view, project))
   end
 end

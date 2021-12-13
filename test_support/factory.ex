@@ -4,4 +4,5 @@ defmodule Fleature.Factory do
   use Fleature.UserFactory
   use Fleature.ProjectFactory
   use Fleature.EnvironmentFactory
+  use Fleature.FeatureFlagFactory
 end

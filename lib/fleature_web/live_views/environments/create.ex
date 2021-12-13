@@ -40,14 +40,7 @@ defmodule FleatureWeb.EnvironmentsLive.Create do
   def handle_event("save", %{"environment" => params}, socket) do
     case Environments.insert_environment(params) do
       {:ok, environment} ->
-        path =
-          Routes.environments_path(
-            FleatureWeb.Endpoint,
-            :view,
-            socket.assigns.project.organization_id,
-            socket.assigns.project,
-            environment
-          )
+        path = Routes.environments_path(FleatureWeb.Endpoint, :view, environment)
 
         {:noreply, push_patch(socket, to: path)}
 

@@ -19,11 +19,12 @@ defmodule FleatureWeb.ProjectsLive.View do
     ~H"""
     <div>
       <.h1><%= @project.name %></.h1>
-      <.h2><%= @project.organization.name %></.h2>
+      <.breadcrumbs project={@project} />
+      <.h2>Environments</.h2>
       <.ul>
         <%= for environment <- @environments do %>
           <.li>
-            <.a path={Routes.environments_path(FleatureWeb.Endpoint, :view, @project.organization, @project, environment)}>
+            <.a path={Routes.environments_path(FleatureWeb.Endpoint, :view, environment)}>
               <%= environment.name %>
             </.a>
           </.li>
@@ -31,8 +32,8 @@ defmodule FleatureWeb.ProjectsLive.View do
       </.ul>
       <.a
         class="create-environment"
-        path={Routes.environments_path(FleatureWeb.Endpoint, :create, @project.organization, @project)}
-      >Create Project</.a>
+        path={Routes.environments_path(FleatureWeb.Endpoint, :create, @project)}
+      >Create Environment</.a>
     </div>
     """
   end
