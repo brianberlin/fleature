@@ -11,6 +11,12 @@ defmodule Fleature.Schemas.FeatureFlag do
     has_one(:organization, through: [:environment, :project, :organization])
   end
 
+  def status_changeset(feature_flag, attrs \\ %{}) do
+    feature_flag
+    |> cast(attrs, [:status])
+    |> validate_required([:status])
+  end
+
   def insert_changeset(feature_flag, attrs \\ %{}) do
     feature_flag
     |> cast(attrs, [:name, :environment_id])

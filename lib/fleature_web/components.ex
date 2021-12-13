@@ -64,9 +64,18 @@ defmodule FleatureWeb.Components do
     """
   end
 
-  def hidden_input(assigns) do
+  def checkbox_input(assigns) do
     ~H"""
-    <%= hidden_input(@f, @key, value: @value) %>
+    <%= checkbox(@f, @key) %>
+    """
+  end
+
+  def hidden_input(assigns) do
+    required = [:f, :key]
+    opts = Enum.filter(assigns, &(&1 in required))
+
+    ~H"""
+    <%= hidden_input(@f, @key, opts) %>
     """
   end
 

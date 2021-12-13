@@ -19,8 +19,6 @@ defmodule FleatureWeb.FeatureFlagsLive.CreateTest do
     |> element("form")
     |> render_submit(%{feature_flag: %{name: "Test2", environment_id: environment.id}})
 
-    [feature_flag] = Fleature.FeatureFlags.list_feature_flags([])
-
-    assert_patch(view, Routes.feature_flags_path(FleatureWeb.Endpoint, :view, feature_flag))
+    assert [_feature_flag] = Fleature.FeatureFlags.list_feature_flags([])
   end
 end

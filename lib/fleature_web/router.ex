@@ -92,10 +92,6 @@ defmodule FleatureWeb.Router do
       live "/environments/:environment_id/feature_flags/create",
            FeatureFlagsLive,
            :create
-
-      live "/feature_flags/:feature_flag_id",
-           FeatureFlagsLive,
-           :view
     end
 
     get "/users/settings", UserSettingsController, :edit

@@ -4,6 +4,12 @@ defmodule Fleature.FeatureFlags do
   alias Fleature.Schemas.FeatureFlag
   alias Fleature.Repo
 
+  def update_feature_flag_status(feature_flag, attrs) do
+    feature_flag
+    |> FeatureFlag.status_changeset(attrs)
+    |> Repo.update()
+  end
+
   def insert_feature_flag(attrs) do
     %FeatureFlag{}
     |> FeatureFlag.insert_changeset(attrs)

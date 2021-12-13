@@ -3,14 +3,13 @@ defmodule FleatureWeb.EnvironmentsLive.View do
   use FleatureWeb, :live_component
 
   alias Fleature.FeatureFlags
+  alias Fleature.Schemas.FeatureFlag
 
   def update(assigns, socket) do
-    feature_flags = FeatureFlags.list_feature_flags(environment_id: assigns.environment.id)
-
     socket =
       socket
       |> assign(:environment, assigns.environment)
-      |> assign(:feature_flags, feature_flags)
+      |> assign_feature_flags()
 
     {:ok, socket}
   end
@@ -24,9 +23,11 @@ defmodule FleatureWeb.EnvironmentsLive.View do
       <.ul>
         <%= for feature_flag <- @feature_flags do %>
           <.li>
-            <.a path={""}>
-              <%= feature_flag.name %>
-            </.a>
+            <%= feature_flag.name %>
+            <.form class="feature-flag-form" let={f} for={make_changeset(feature_flag)} phx-change="save" phx-target={@myself}>
+              <.hidden_input f={f} key={:id} />
+              <.checkbox_input f={f} key={:status} />
+            </.form>
           </.li>
         <% end %>
       </.ul>
@@ -36,5 +37,20 @@ defmodule FleatureWeb.EnvironmentsLive.View do
       >Create Feature Flag</.a>
     </div>
     """
+  end
+
+  def handle_event("save", %{"feature_flag" => params}, socket) do
+    feature_flag = FeatureFlags.get_feature_flag(id: params["id"])
+    {:ok, _feature_flag} = FeatureFlags.update_feature_flag_status(feature_flag, params)
+    {:noreply, assign_feature_flags(socket)}
+  end
+
+  defp assign_feature_flags(socket) do
+    feature_flags = FeatureFlags.list_feature_flags(environment_id: socket.assigns.environment.id)
+    assign(socket, :feature_flags, feature_flags)
+  end
+
+  def make_changeset(feature_flag) do
+    FeatureFlag.status_changeset(feature_flag, %{})
   end
 end
