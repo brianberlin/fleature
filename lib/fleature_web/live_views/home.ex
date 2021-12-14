@@ -26,19 +26,19 @@ defmodule FleatureWeb.HomeLive do
     <.ul>
       <%= for organization <- @organizations do %>
         <.li>
-          <.a
+          <.patch_link
             class={"organization-link-#{organization.id}"}
-            path={Routes.organizations_path(FleatureWeb.Endpoint, :view, organization)}
+            to={Routes.organizations_path(FleatureWeb.Endpoint, :view, organization)}
           >
             <%= organization.name %>
-          </.a>
+          </.patch_link>
         </.li>
       <% end %>
     </.ul>
-    <.a
+    <.patch_link
       class="create-organization"
-      path={Routes.organizations_path(FleatureWeb.Endpoint, :create)}
-    >Create Organization</.a>
+      to={Routes.organizations_path(FleatureWeb.Endpoint, :create)}
+    >Create Organization</.patch_link>
     </div>
     """
   end

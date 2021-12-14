@@ -40,9 +40,9 @@ defmodule FleatureWeb.Components do
     """
   end
 
-  def a(assigns) do
+  def patch_link(assigns) do
     ~H"""
-    <%= live_patch(to: @path, class: Map.get(assigns, :class)) do %>
+    <%= live_patch(to: @to, class: Map.get(assigns, :class)) do %>
       <%= render_slot(@inner_block) %>
     <% end %>
     """
@@ -85,27 +85,27 @@ defmodule FleatureWeb.Components do
 
     ~H"""
     <div>
-      <.a path={Routes.home_path(FleatureWeb.Endpoint, :index)}>Home</.a>
+      <.patch_link to={Routes.home_path(FleatureWeb.Endpoint, :index)}>Home</.patch_link>
 
       <%= if :project in keys do %>
         <span>, </span>
-        <.a path={Routes.organizations_path(FleatureWeb.Endpoint, :view, @project.organization)}><%= @project.organization.name %></.a>
+        <.patch_link to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @project.organization)}><%= @project.organization.name %></.patch_link>
       <% end %>
 
       <%= if :environment in keys do %>
         <span>, </span>
-        <.a path={Routes.organizations_path(FleatureWeb.Endpoint, :view, @environment.organization)}><%= @environment.organization.name %></.a>
+        <.patch_link to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @environment.organization)}><%= @environment.organization.name %></.patch_link>
         <span>, </span>
-        <.a path={Routes.projects_path(FleatureWeb.Endpoint, :view, @environment.project)}><%= @environment.project.name %></.a>
+        <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, @environment.project)}><%= @environment.project.name %></.patch_link>
       <% end %>
 
       <%= if :feature_flag in keys do  %>
         <span>, </span>
-        <.a path={Routes.organizations_path(FleatureWeb.Endpoint, :view, @feature_flag.organization)}><%= @feature_flag.organization.name %></.a>
+        <.patch_link to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @feature_flag.organization)}><%= @feature_flag.organization.name %></.patch_link>
         <span>, </span>
-        <.a path={Routes.projects_path(FleatureWeb.Endpoint, :view, @feature_flag.project)}><%= @feature_flag.project.name %></.a>
+        <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, @feature_flag.project)}><%= @feature_flag.project.name %></.patch_link>
         <span>, </span>
-        <.a path={Routes.organizations_path(FleatureWeb.Endpoint, :view, @feature_flag.organization)}><%= @feature_flag.organization.name %></.a>
+        <.patch_link to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @feature_flag.organization)}><%= @feature_flag.organization.name %></.patch_link>
       <% end %>
     </div>
     """

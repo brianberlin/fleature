@@ -24,16 +24,16 @@ defmodule FleatureWeb.ProjectsLive.View do
       <.ul>
         <%= for environment <- @environments do %>
           <.li>
-            <.a path={Routes.environments_path(FleatureWeb.Endpoint, :view, environment)}>
+            <.patch_link to={Routes.environments_path(FleatureWeb.Endpoint, :view, environment)}>
               <%= environment.name %>
-            </.a>
+            </.patch_link>
           </.li>
         <% end %>
       </.ul>
-      <.a
+      <.patch_link
         class="create-environment"
-        path={Routes.environments_path(FleatureWeb.Endpoint, :create, @project)}
-      >Create Environment</.a>
+        to={Routes.environments_path(FleatureWeb.Endpoint, :create, @project)}
+      >Create Environment</.patch_link>
     </div>
     """
   end

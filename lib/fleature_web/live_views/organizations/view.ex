@@ -24,16 +24,16 @@ defmodule FleatureWeb.OrganizationsLive.View do
       <.ul>
         <%= for project <- @projects do %>
           <.li>
-            <.a path={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
+            <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
               <%= project.name %>
-            </.a>
+            </.patch_link>
           </.li>
         <% end %>
       </.ul>
-      <.a
+      <.patch_link
         class="create-project"
-        path={Routes.projects_path(FleatureWeb.Endpoint, :create, @organization)}
-      >Create Project</.a>
+        to={Routes.projects_path(FleatureWeb.Endpoint, :create, @organization)}
+      >Create Project</.patch_link>
     </div>
     """
   end

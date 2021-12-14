@@ -20,6 +20,7 @@ defmodule FleatureWeb.EnvironmentsLive do
         module={FleatureWeb.EnvironmentsLive.View}
         id={@environment.id}
         environment={@environment}
+        user_id={@current_user.id}
       />
     <% :create -> %>
       <.live_component
