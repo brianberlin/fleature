@@ -1,18 +1,16 @@
-defmodule FleatureWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :fleature
+defmodule FleatureTestWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :fleature_test
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_fleature_key",
-    signing_salt: "TbIr0e6Y"
+    key: "_fleature_test_key",
+    signing_salt: "0WLqR4s/"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
-
-  socket "/clients", FleatureWeb.ClientSocket, websocket: true, longpoll: false
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -20,7 +18,7 @@ defmodule FleatureWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :fleature,
+    from: :fleature_test,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
@@ -30,7 +28,6 @@ defmodule FleatureWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :fleature
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -48,5 +45,5 @@ defmodule FleatureWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug FleatureWeb.Router
+  plug FleatureTestWeb.Router
 end

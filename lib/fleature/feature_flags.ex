@@ -8,6 +8,7 @@ defmodule Fleature.FeatureFlags do
     feature_flag
     |> FeatureFlag.status_changeset(attrs)
     |> Repo.update()
+    |> broadcast_feature_flag_status()
   end
 
   def insert_feature_flag(attrs) do
@@ -42,6 +43,17 @@ defmodule Fleature.FeatureFlags do
     where(query, environment_id: ^id)
   end
 
+  defp filter(query, {:client_id, client_id}) do
+    from(
+      feature_flag in query,
+      left_join: environment in Fleature.Schemas.Environment,
+      on: feature_flag.environment_id == environment.id,
+      left_join: environment_token in Fleature.Schemas.EnvironmentToken,
+      on: environment_token.environment_id == environment.id,
+      where: environment_token.client_id == ^client_id
+    )
+  end
+
   defp apply_filters(query, params) do
     Enum.reduce(params, query, fn param, query ->
       filter(query, param)
@@ -51,4 +63,16 @@ defmodule Fleature.FeatureFlags do
   defp default_order(query) do
     order_by(query, [s], asc: s.name)
   end
+
+  defp broadcast_feature_flag_status({:ok, feature_flag}) do
+    feature_flag = Repo.preload(feature_flag, :environment_tokens)
+
+    Enum.each(feature_flag.environment_tokens, fn %{client_id: client_id} ->
+      Phoenix.PubSub.broadcast(Fleature.PubSub, "client:" <> client_id, :update)
+    end)
+
+    {:ok, feature_flag}
+  end
+
+  defp broadcast_feature_flag_status(response), do: response
 end

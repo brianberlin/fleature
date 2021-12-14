@@ -6,6 +6,7 @@ defmodule Fleature.Schemas.Environment do
   schema "environments" do
     field(:name, :string)
     belongs_to(:project, Fleature.Schemas.Project)
+    has_many(:environment_tokens, Fleature.Schemas.EnvironmentToken)
     has_one(:organization, through: [:project, :organization])
   end
 

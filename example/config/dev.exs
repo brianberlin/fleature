@@ -1,28 +1,19 @@
 import Config
 
-# Configure your database
-config :fleature, Fleature.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "fleature_dev",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :fleature, FleatureWeb.Endpoint,
+config :fleature_test, FleatureTestWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: System.get_env("PORT") || 4000],
+  http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "uLPjNFqAnlkqIcytdf/gQYVlTHkv8Nug/y+3T4R4EpRebvVZ9UPGBmQyuP34vuyR",
+  secret_key_base: "onOi247JUX3zz7dy2+MR0iCLMXyXvXDSwtzKRF5p3RWlwwezOeyIfF8nIHlYhgIL",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
@@ -53,13 +44,13 @@ config :fleature, FleatureWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :fleature, FleatureWeb.Endpoint,
+config :fleature_test, FleatureTestWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/fleature_web/(live|views)/.*(ex)$",
-      ~r"lib/fleature_web/templates/.*(eex)$"
+      ~r"lib/fleature_test_web/(live|views)/.*(ex)$",
+      ~r"lib/fleature_test_web/templates/.*(eex)$"
     ]
   ]
 

@@ -36,7 +36,7 @@ defmodule FleatureWeb.EnvironmentsLive.View do
       <.ul>
         <%= for environment_token <- @environment_tokens do %>
           <.li>
-            <%= Base.encode64(environment_token.client_id) %>
+            <%= environment_token.client_id %>
             <a
               href="#"
               class="delete_environment_token"
@@ -82,9 +82,9 @@ defmodule FleatureWeb.EnvironmentsLive.View do
   end
 
   def handle_event("new_environment_token", _params, socket) do
-    client_id = :crypto.strong_rand_bytes(16)
-    client_secret = :crypto.strong_rand_bytes(32)
-    hashed_client_secret = :crypto.hash(:sha256, client_id)
+    client_id = 16 |> :crypto.strong_rand_bytes() |> Base.encode64()
+    client_secret = 32 |> :crypto.strong_rand_bytes() |> Base.encode64()
+    hashed_client_secret = Bcrypt.hash_pwd_salt(client_secret)
 
     attrs = %{
       client_id: client_id,
@@ -97,8 +97,8 @@ defmodule FleatureWeb.EnvironmentsLive.View do
 
     socket =
       socket
-      |> assign(:client_id, Base.encode64(client_id))
-      |> assign(:client_secret, Base.encode64(client_secret))
+      |> assign(:client_id, client_id)
+      |> assign(:client_secret, client_secret)
       |> assign_environment_tokens()
 
     {:noreply, socket}

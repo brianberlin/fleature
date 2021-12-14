@@ -40,6 +40,10 @@ defmodule Fleature.EnvironmentTokens do
     where(query, environment_id: ^id)
   end
 
+  defp filter(query, {:client_id, client_id}) do
+    where(query, client_id: ^client_id)
+  end
+
   defp apply_filters(query, params) do
     Enum.reduce(params, query, fn param, query ->
       filter(query, param)
