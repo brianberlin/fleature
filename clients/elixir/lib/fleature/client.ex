@@ -32,8 +32,19 @@ defmodule Fleature.Client do
     {:ok, state}
   end
 
-  def handle_message(_topic, "update", feature_flags, _transport, state) do
-    Fleature.Store.update(feature_flags)
+  def handle_message(_topic, "update_all", feature_flags, _transport, state) do
+    Fleature.Store.update_all(feature_flags)
+    {:ok, state}
+  end
+
+  def handle_message(_topic, "update_one", feature_flag, _transport, state) do
+    [{name, status}] = Enum.into(feature_flag, [])
+    Fleature.Store.update_one(name, status)
+    {:ok, state}
+  end
+
+  def handle_message(topic, event, payload, _transport, state) do
+    Logger.warn("message on topic #{topic}: #{event} #{inspect(payload)}")
     {:ok, state}
   end
 
@@ -51,11 +62,6 @@ defmodule Fleature.Client do
     {:ok, state}
   end
 
-  def handle_disconnected(reason, state) do
-    Logger.error("disconnected: #{inspect(reason)}")
-    {:ok, state}
-  end
-
   def handle_info(:connect, _transport, state) do
     Logger.info("connecting")
     {:connect, state}
@@ -63,6 +69,11 @@ defmodule Fleature.Client do
 
   def handle_info(message, _transport, state) do
     Logger.warn("Unhandled message #{inspect(message)}")
+    {:ok, state}
+  end
+
+  def handle_disconnected(reason, state) do
+    Logger.error("disconnected: #{inspect(reason)}")
     {:ok, state}
   end
 
@@ -81,11 +92,6 @@ defmodule Fleature.Client do
     {:ok, state}
   end
 
-  def handle_message(topic, event, payload, _transport, state) do
-    Logger.warn("message on topic #{topic}: #{event} #{inspect(payload)}")
-    {:ok, state}
-  end
-
   def handle_reply(topic, _ref, payload, _transport, state) do
     Logger.warn("reply on topic #{topic}: #{inspect(payload)}")
     {:ok, state}
@@ -97,7 +103,7 @@ defmodule Fleature.Client do
   end
 
   def terminate(reason, _state) do
-    Logger.info("Terminating and cleaning up state. Reason for termination: #{reason}")
+    Logger.info("Terminating and cleaning up state. Reason for termination: #{inspect(reason)}")
   end
 
   defp url do

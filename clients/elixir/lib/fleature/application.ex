@@ -7,7 +7,9 @@ defmodule Fleature.Application do
   def start(_type, _args) do
     children = [
       Fleature.Client,
-      Fleature.Store
+      Fleature.Store,
+      {Registry,
+       keys: :duplicate, name: Fleature.Registry, partitions: System.schedulers_online()}
     ]
 
     opts = [strategy: :one_for_one, name: Fleature.Supervisor]
