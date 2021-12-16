@@ -107,8 +107,8 @@ defmodule Fleature.Client do
   end
 
   defp url do
-    host = Application.get_env(:fleature, :host)
-    port = Application.get_env(:fleature, :port)
+    host = Application.get_env(:fleature, :host, "fleature.com")
+    port = Application.get_env(:fleature, :port, 80)
     "ws://#{host}:#{port}/clients/websocket"
   end
 
