@@ -27,6 +27,7 @@ jobs:
           elixir-version: '1.12'
       - run: mix deps.get
       - run: mix test
+      - run: mix checks
 
       - uses: superfly/flyctl-actions@1.1
         with:
