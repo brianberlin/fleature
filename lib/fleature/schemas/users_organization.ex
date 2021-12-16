@@ -1,4 +1,5 @@
 defmodule Fleature.Schemas.UsersOrganization do
+  @moduledoc false
   use Ecto.Schema
 
   alias Fleature.Schemas.Organization

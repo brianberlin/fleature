@@ -2,8 +2,8 @@ defmodule FleatureWeb.FeatureFlagsLive.Create do
   @moduledoc false
   use FleatureWeb, :live_component
 
-  alias Fleature.Schemas.FeatureFlag
   alias Fleature.FeatureFlags
+  alias Fleature.Schemas.FeatureFlag
 
   def update(assigns, socket) do
     changeset =

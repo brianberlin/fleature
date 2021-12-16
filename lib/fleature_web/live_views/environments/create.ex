@@ -2,8 +2,8 @@ defmodule FleatureWeb.EnvironmentsLive.Create do
   @moduledoc false
   use FleatureWeb, :live_component
 
-  alias Fleature.Schemas.Environment
   alias Fleature.Environments
+  alias Fleature.Schemas.Environment
 
   def update(assigns, socket) do
     changeset =

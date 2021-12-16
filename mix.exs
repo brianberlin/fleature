@@ -35,7 +35,7 @@ defmodule Fleature.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 2.0"},
-      {:phoenix, "~> 1.6.0"},
+      {:phoenix, "~> 1.6.3"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
@@ -52,7 +52,8 @@ defmodule Fleature.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
-      {:ex_machina, "~> 2.7"}
+      {:ex_machina, "~> 2.7"},
+      {:credo, "~> 1.6"}
     ]
   end
 

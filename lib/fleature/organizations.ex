@@ -1,9 +1,10 @@
 defmodule Fleature.Organizations do
+  @moduledoc false
   import Ecto.Query
 
+  alias Fleature.Repo
   alias Fleature.Schemas.Organization
   alias Fleature.Schemas.UsersOrganization
-  alias Fleature.Repo
 
   def insert_organization(user, attrs) do
     %Organization{}

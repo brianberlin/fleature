@@ -2,8 +2,8 @@ defmodule FleatureWeb.OrganizationsLive do
   @moduledoc false
   use FleatureWeb, :live_view
 
-  alias Fleature.Organizations
   alias Fleature.Accounts
+  alias Fleature.Organizations
 
   def mount(_, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])

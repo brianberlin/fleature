@@ -4,8 +4,8 @@ defmodule FleatureWeb.EnvironmentsLive do
   use FleatureWeb, :live_view
 
   alias Fleature.Accounts
-  alias Fleature.Projects
   alias Fleature.Environments
+  alias Fleature.Projects
 
   def mount(_, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])

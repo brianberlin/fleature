@@ -1,4 +1,5 @@
 defmodule Fleature.Schemas.Environment do
+  @moduledoc false
   use Ecto.Schema
 
   import Ecto.Changeset

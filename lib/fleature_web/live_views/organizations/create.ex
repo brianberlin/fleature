@@ -2,8 +2,8 @@ defmodule FleatureWeb.OrganizationsLive.Create do
   @moduledoc false
   use FleatureWeb, :live_component
 
-  alias Fleature.Schemas.Organization
   alias Fleature.Organizations
+  alias Fleature.Schemas.Organization
 
   def update(assigns, socket) do
     changeset = Organization.insert_changeset(%Organization{}, assigns.user)

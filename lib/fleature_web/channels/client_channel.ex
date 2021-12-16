@@ -1,4 +1,5 @@
 defmodule FleatureWeb.ClientChannel do
+  @moduledoc false
   use FleatureWeb, :channel
 
   alias Fleature.FeatureFlags

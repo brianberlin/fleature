@@ -1,8 +1,9 @@
 defmodule Fleature.Environments do
+  @moduledoc false
   import Ecto.Query
 
-  alias Fleature.Schemas.Environment
   alias Fleature.Repo
+  alias Fleature.Schemas.Environment
 
   def insert_environment(attrs) do
     %Environment{}

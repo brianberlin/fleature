@@ -1,5 +1,7 @@
 defmodule Fleature.Schemas.UserToken do
+  @moduledoc false
   use Ecto.Schema
+
   import Ecto.Query
 
   @hash_algorithm :sha256

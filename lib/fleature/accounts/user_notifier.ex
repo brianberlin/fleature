@@ -1,4 +1,5 @@
 defmodule Fleature.Accounts.UserNotifier do
+  @moduledoc false
   import Swoosh.Email
 
   alias Fleature.Mailer

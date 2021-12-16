@@ -2,8 +2,8 @@ defmodule FleatureWeb.ProjectsLive.Create do
   @moduledoc false
   use FleatureWeb, :live_component
 
-  alias Fleature.Schemas.Project
   alias Fleature.Projects
+  alias Fleature.Schemas.Project
 
   def update(assigns, socket) do
     changeset =

@@ -1,4 +1,5 @@
 defmodule FleatureWeb.Plugs.DefaultPageTitle do
+  @moduledoc false
   import Plug.Conn, only: [assign: 3]
 
   def init(opts), do: opts

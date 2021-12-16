@@ -1,5 +1,7 @@
 defmodule Fleature.Schemas.User do
+  @moduledoc false
   use Ecto.Schema
+
   import Ecto.Changeset
 
   schema "users" do
@@ -8,7 +10,9 @@ defmodule Fleature.Schemas.User do
     field(:hashed_password, :string, redact: true)
     field(:confirmed_at, :naive_datetime)
 
-    many_to_many(:organizations, Fleature.Schemas.Organization, join_through: "organizations_users")
+    many_to_many(:organizations, Fleature.Schemas.Organization,
+      join_through: "organizations_users"
+    )
 
     timestamps()
   end

@@ -1,8 +1,9 @@
 defmodule Fleature.EnvironmentTokens do
-  alias Fleature.Schemas.EnvironmentToken
-  alias Fleature.Repo
-
+  @moduledoc false
   import Ecto.Query
+
+  alias Fleature.Repo
+  alias Fleature.Schemas.EnvironmentToken
 
   def insert_environment_token(attrs) do
     %EnvironmentToken{}

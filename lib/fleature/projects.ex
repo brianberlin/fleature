@@ -1,8 +1,9 @@
 defmodule Fleature.Projects do
+  @moduledoc false
   import Ecto.Query
 
-  alias Fleature.Schemas.Project
   alias Fleature.Repo
+  alias Fleature.Schemas.Project
 
   def insert_project(attrs) do
     %Project{}

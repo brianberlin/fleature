@@ -1,8 +1,9 @@
 defmodule Fleature.FeatureFlags do
+  @moduledoc false
   import Ecto.Query
 
-  alias Fleature.Schemas.FeatureFlag
   alias Fleature.Repo
+  alias Fleature.Schemas.FeatureFlag
 
   def update_feature_flag_status(feature_flag, attrs) do
     feature_flag

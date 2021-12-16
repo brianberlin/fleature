@@ -2,8 +2,8 @@ defmodule FleatureWeb.UserConfirmationControllerTest do
   use FleatureWeb.ConnCase, async: true
 
   alias Fleature.Accounts
-  alias Fleature.Schemas
   alias Fleature.Repo
+  alias Fleature.Schemas
   import Fleature.AccountsFixtures
 
   setup do
