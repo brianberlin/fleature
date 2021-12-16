@@ -1,0 +1,3 @@
+#!/bin/sh
+cd -P -- "$(dirname -- "$0")"
+exec /app/bin/fleature eval Fleature.Release.reset

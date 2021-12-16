@@ -1,0 +1,1 @@
+call "%~dp0\fleature" eval Fleature.Release.migrate
