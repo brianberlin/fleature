@@ -13,11 +13,11 @@ defmodule FleatureWeb.FeatureFlagsLive.CreateTest do
 
     view
     |> element("form")
-    |> render_change(%{feature_flag: %{name: "Test", environment_id: environment.id}})
+    |> render_change(%{feature_flag: %{name: "test", environment_id: environment.id}})
 
     view
     |> element("form")
-    |> render_submit(%{feature_flag: %{name: "Test2", environment_id: environment.id}})
+    |> render_submit(%{feature_flag: %{name: "test_two", environment_id: environment.id}})
 
     assert [_feature_flag] = Fleature.FeatureFlags.list_feature_flags([])
   end

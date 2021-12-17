@@ -23,5 +23,7 @@ defmodule Fleature.Schemas.FeatureFlag do
     feature_flag
     |> cast(attrs, [:name, :environment_id])
     |> validate_required([:name, :environment_id])
+    |> validate_format(:name, ~r/^[a-z_]+$/)
+    |> unique_constraint(:name, name: :feature_flags_name_environment_id_index)
   end
 end
