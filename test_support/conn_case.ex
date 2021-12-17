@@ -35,6 +35,7 @@ defmodule FleatureWeb.ConnCase do
   setup tags do
     pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Fleature.Repo, shared: not tags[:async])
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 
@@ -58,7 +59,6 @@ defmodule FleatureWeb.ConnCase do
   """
   def log_in_user(conn, user) do
     token = Fleature.Accounts.generate_user_session_token(user)
-
     conn
     |> Phoenix.ConnTest.init_test_session(%{})
     |> Plug.Conn.put_session(:user_token, token)

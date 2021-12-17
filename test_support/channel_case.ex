@@ -16,12 +16,17 @@ defmodule FleatureWeb.ChannelCase do
   """
 
   use ExUnit.CaseTemplate
+  import Fleature.Factory
+  import Phoenix.ChannelTest
+  @endpoint FleatureWeb.Endpoint
 
   using do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
       import FleatureWeb.ChannelCase
+      import Fleature.DataCase
+      import Fleature.Factory
 
       # The default endpoint for testing
       @endpoint FleatureWeb.Endpoint
