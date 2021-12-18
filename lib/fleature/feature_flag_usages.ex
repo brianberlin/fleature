@@ -3,8 +3,8 @@ defmodule Fleature.FeatureFlagUsages do
   use Oban.Worker, queue: :default
 
   alias Fleature.FeatureFlags
-  alias Fleature.Schemas.FeatureFlagUsage
   alias Fleature.Repo
+  alias Fleature.Schemas.FeatureFlagUsage
 
   def perform(%{args: %{"client_id" => client_id, "data" => data}}) do
     data

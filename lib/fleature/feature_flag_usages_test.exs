@@ -26,6 +26,6 @@ defmodule Fleature.FeatureFlagUsagesTest do
                environment_id: ^environment_id,
                count: 2
              }
-           ] = Fleature.Schemas.FeatureFlagUsage |> Fleature.Repo.all()
+           ] = Fleature.Schemas.FeatureFlagUsage |> order_by(asc: :count) |> Fleature.Repo.all()
   end
 end

@@ -7,7 +7,7 @@ kill_timeout = 5
 processes = []
 
 [deploy]
-  release_command = "/app/bin/setup"
+  release_command = "/app/bin/migrate"
 
 [env]
   PHX_HOST = "fleature-web.fly.dev"

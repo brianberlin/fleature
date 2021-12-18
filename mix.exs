@@ -11,7 +11,16 @@ defmodule Fleature.MixProject do
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      dialyzer: dialyzer()
+    ]
+  end
+
+  defp dialyzer do
+    [
+      plt_core_path: "priv/plts",
+      plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+      plt_add_apps: [:mix]
     ]
   end
 
@@ -53,8 +62,9 @@ defmodule Fleature.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
       {:ex_machina, "~> 2.7"},
-      {:credo, "~> 1.6"},
-      {:oban, "~> 2.10"}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:oban, "~> 2.10"},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 
@@ -71,8 +81,7 @@ defmodule Fleature.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "test.watch": ["ecto.create --quiet", "ecto.migrate --quiet", "test.watch"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"],
-      checks: ["credo --strict", "format --check-formatted"]
+      "assets.deploy": ["esbuild default --minify", "phx.digest"]
     ]
   end
 end

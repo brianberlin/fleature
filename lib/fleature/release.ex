@@ -5,12 +5,14 @@ defmodule Fleature.Release do
   """
   @app :fleature
 
+  alias Ecto.Adapters.Postgres
+
   def reset do
     load_app()
 
     for repo <- repos() do
-      Ecto.Adapters.Postgres.storage_down(repo.config())
-      Ecto.Adapters.Postgres.storage_up(repo.config())
+      Postgres.storage_down(repo.config())
+      Postgres.storage_up(repo.config())
     end
 
     migrate()
