@@ -16,9 +16,6 @@ defmodule FleatureWeb.ChannelCase do
   """
 
   use ExUnit.CaseTemplate
-  import Fleature.Factory
-  import Phoenix.ChannelTest
-  @endpoint FleatureWeb.Endpoint
 
   using do
     quote do

@@ -64,7 +64,7 @@ defmodule Fleature.MixProject do
       {:ex_machina, "~> 2.7"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:oban, "~> 2.10"},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
