@@ -1,6 +1,4 @@
 defmodule Fleature.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
@@ -8,20 +6,13 @@ defmodule Fleature.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
       Fleature.Repo,
-      # Start the Telemetry supervisor
       FleatureWeb.Telemetry,
-      # Start the PubSub system
       {Phoenix.PubSub, name: Fleature.PubSub},
-      # Start the Endpoint (http/https)
-      FleatureWeb.Endpoint
-      # Start a worker by calling: Fleature.Worker.start_link(arg)
-      # {Fleature.Worker, arg}
+      FleatureWeb.Endpoint,
+      {Oban, Application.fetch_env!(:fleature, Oban)}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Fleature.Supervisor]
     Supervisor.start_link(children, opts)
   end

@@ -3,6 +3,7 @@ defmodule FleatureWeb.ClientChannel do
   use FleatureWeb, :channel
 
   alias Fleature.FeatureFlags
+  alias Fleature.FeatureFlagUsages
 
   @impl true
   def join("client:" <> client_id, _payload, socket) do
@@ -19,6 +20,17 @@ defmodule FleatureWeb.ClientChannel do
 
   def handle_info({:update_one, name, status}, socket) do
     push(socket, "update_one", %{name => status})
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_in("usage", data, socket) do
+    args = %{client_id: Base.encode64(socket.assigns.client_id), data: data}
+
+    args
+    |> FeatureFlagUsages.new(queue: :default, max_attempts: 1)
+    |> Oban.insert()
+
     {:noreply, socket}
   end
 

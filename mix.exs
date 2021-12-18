@@ -53,7 +53,8 @@ defmodule Fleature.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
       {:ex_machina, "~> 2.7"},
-      {:credo, "~> 1.6"}
+      {:credo, "~> 1.6"},
+      {:oban, "~> 2.10"}
     ]
   end
 

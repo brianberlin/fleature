@@ -41,6 +41,10 @@ defmodule Fleature.FeatureFlags do
     where(query, id: ^id)
   end
 
+  defp filter(query, {:name, name}) do
+    where(query, name: ^name)
+  end
+
   defp filter(query, {:environment_id, id}) do
     where(query, environment_id: ^id)
   end
