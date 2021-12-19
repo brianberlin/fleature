@@ -40,6 +40,21 @@ defmodule FleatureWeb.Components do
     """
   end
 
+  #########
+  # TABLE #
+  #########
+
+  def table(assigns), do: ~H"<table><%= render_slot(@inner_block) %></table>"
+  def th(assigns), do: ~H"<th><%= render_slot(@inner_block) %></th>"
+  def tr(assigns), do: ~H"<tr><%= render_slot(@inner_block) %></tr>"
+  def td(assigns), do: ~H"<td><%= render_slot(@inner_block) %></td>"
+  def tbody(assigns), do: ~H"<tbody><%= render_slot(@inner_block) %></tbody>"
+  def thead(assigns), do: ~H"<thead><%= render_slot(@inner_block) %></thead>"
+
+  #########
+  # LINKS #
+  #########
+
   def patch_link(assigns) do
     ~H"""
     <%= live_patch(to: @to, class: Map.get(assigns, :class)) do %>
@@ -47,6 +62,20 @@ defmodule FleatureWeb.Components do
     <% end %>
     """
   end
+
+  def click_link(assigns) do
+    ~H"""
+    <a
+      href="#"
+      class={@class}
+      phx-click={@click}
+      phx-value-id={@id}
+      phx-target={@target}
+    ><%= render_slot(@inner_block) %></a>
+    """
+  end
+
+  ### FORM
 
   def submit_button(assigns) do
     ~H"""

@@ -53,19 +53,34 @@ defmodule FleatureWeb.EnvironmentsLive.View do
         phx-target={@myself}
       >Generate Environment Token</a>
       <.h2>Feature Flags</.h2>
-      <.ul>
-        <%= for feature_flag <- @feature_flags do %>
-          <.li>
-            <.form class="feature-flag-form" let={f} for={make_changeset(feature_flag)} phx-change="save" phx-target={@myself}>
-              <.hidden_input f={f} key={:id} />
-              <label>
-                <%= feature_flag.name %>
-                <.checkbox_input f={f} key={:status} />
-              </label>
-            </.form>
-          </.li>
-        <% end %>
-      </.ul>
+      <.table>
+        <.thead>
+          <.tr>
+            <.th>Name</.th>
+            <.th>Status</.th>
+            <.th>Actions</.th>
+          </.tr>
+        </.thead>
+        <.tbody>
+          <%= for feature_flag <- @feature_flags do %>
+            <.tr>
+              <.td><%= feature_flag.name %></.td>
+              <.td>
+                <.form class="feature-flag-form" let={f} for={make_changeset(feature_flag)} phx-change="save" phx-target={@myself}>
+                  <.hidden_input f={f} key={:id} />
+                  <.checkbox_input f={f} key={:status} />
+                </.form>
+              </.td>
+              <.td><.click_link
+                class={"delete_feature_flag_#{feature_flag.id}"}
+                click="delete_feature_flag"
+                id={feature_flag.id}
+                target={@myself}
+              >Delete</.click_link></.td>
+            </.tr>
+          <% end %>
+        </.tbody>
+      </.table>
       <.patch_link
         class="create-feature_flag"
         to={Routes.feature_flags_path(FleatureWeb.Endpoint, :create, @environment)}
@@ -79,6 +94,13 @@ defmodule FleatureWeb.EnvironmentsLive.View do
     EnvironmentTokens.delete_environment_token(environment_token)
 
     {:noreply, assign_environment_tokens(socket)}
+  end
+
+  def handle_event("delete_feature_flag", %{"id" => id}, socket) do
+    feature_flag = FeatureFlags.get_feature_flag(id: id)
+    FeatureFlags.delete_feature_flag(feature_flag)
+
+    {:noreply, assign_feature_flags(socket)}
   end
 
   def handle_event("new_environment_token", _params, socket) do
