@@ -8,6 +8,7 @@ defmodule Fleature.Schemas.Environment do
     field(:name, :string)
     belongs_to(:project, Fleature.Schemas.Project)
     has_many(:environment_tokens, Fleature.Schemas.EnvironmentToken)
+    has_many(:feature_flags, Fleature.Schemas.FeatureFlag)
     has_one(:organization, through: [:project, :organization])
   end
 

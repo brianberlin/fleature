@@ -64,13 +64,14 @@ defmodule FleatureWeb.Components do
   end
 
   def click_link(assigns) do
+    target = Map.get(assigns, :target)
     ~H"""
     <a
       href="#"
       class={@class}
       phx-click={@click}
       phx-value-id={@id}
-      phx-target={@target}
+      phx-target={target}
     ><%= render_slot(@inner_block) %></a>
     """
   end

@@ -23,4 +23,16 @@ defmodule Fleature.OrganizationsTest do
     assert {:error, _changeset} = insert_organization(user, %{name: ""})
     assert {:error, _changeset} = insert_organization(nil, %{name: "Test"})
   end
+
+  test "delete_organization" do
+    feature_flag = insert(:feature_flag)
+    organization = feature_flag.environment.project.organization
+    insert(:users_organization, user: insert(:user), organization: organization)
+    assert {:ok, _} = delete_organization(organization)
+    assert [] = Repo.all(Fleature.Schemas.Environment)
+    assert [] = Repo.all(Fleature.Schemas.FeatureFlag)
+    assert [] = Repo.all(Fleature.Schemas.Organization)
+    assert [] = Repo.all(Fleature.Schemas.EnvironmentToken)
+    assert [] = Repo.all(Fleature.Schemas.UsersOrganization)
+  end
 end

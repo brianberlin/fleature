@@ -7,6 +7,7 @@ defmodule Fleature.Schemas.Project do
   schema "projects" do
     field(:name, :string)
     belongs_to(:organization, Fleature.Schemas.Organization)
+    has_many(:environments, Fleature.Schemas.Environment)
     has_many(:users, through: [:organization, :users])
   end
 

@@ -9,6 +9,10 @@ defmodule Fleature.Schemas.Organization do
   schema "organizations" do
     field(:name, :string)
     has_many(:projects, Fleature.Schemas.Project)
+    has_many(:environments, through: [:projects, :environments])
+    has_many(:feature_flags, through: [:environments, :feature_flags])
+    has_many(:environment_tokens, through: [:environments, :environment_tokens])
+    has_many(:users_organizations, Fleature.Schemas.UsersOrganization)
     many_to_many(:users, Fleature.Schemas.User, join_through: "users_organizations")
   end
 
