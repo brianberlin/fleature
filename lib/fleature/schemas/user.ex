@@ -10,6 +10,7 @@ defmodule Fleature.Schemas.User do
     field(:hashed_password, :string, redact: true)
     field(:confirmed_at, :naive_datetime)
     has_many(:users_organization, Fleature.Schemas.UsersOrganization)
+
     many_to_many(:organizations, Fleature.Schemas.Organization,
       join_through: "organizations_users"
     )

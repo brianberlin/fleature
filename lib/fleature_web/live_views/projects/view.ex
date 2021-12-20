@@ -5,14 +5,17 @@ defmodule FleatureWeb.ProjectsLive.View do
   alias Fleature.Environments
 
   def update(assigns, socket) do
-    environments = Environments.list_environments(project_id: assigns.project.id)
-
     socket =
       socket
-      |> assign(:environments, environments)
       |> assign(:project, assigns.project)
+      |> assign_environments()
 
     {:ok, socket}
+  end
+
+  defp assign_environments(socket) do
+    environments = Environments.list_environments(project_id: socket.assigns.project.id)
+    assign(socket, :environments, environments)
   end
 
   def render(assigns) do
@@ -21,20 +24,43 @@ defmodule FleatureWeb.ProjectsLive.View do
       <.h1><%= @project.name %></.h1>
       <.breadcrumbs project={@project} />
       <.h2>Environments</.h2>
-      <.ul>
-        <%= for environment <- @environments do %>
-          <.li>
-            <.patch_link to={Routes.environments_path(FleatureWeb.Endpoint, :view, environment)}>
-              <%= environment.name %>
-            </.patch_link>
-          </.li>
-        <% end %>
-      </.ul>
+      <.table>
+        <.thead>
+          <.tr>
+            <.th>Name</.th>
+            <.th>Actions</.th>
+          </.tr>
+        </.thead>
+        <.tbody>
+          <%= for environment <- @environments do %>
+            <.tr>
+              <.td>
+                <.patch_link to={Routes.environments_path(FleatureWeb.Endpoint, :view, environment)}>
+                  <%= environment.name %>
+                </.patch_link>
+              </.td>
+              <.td><.click_link
+                class={"delete_environment_#{environment.id}"}
+                click="delete_environment"
+                id={environment.id}
+                target={@myself}
+              >Delete</.click_link></.td>
+            </.tr>
+          <% end %>
+        </.tbody>
+      </.table>
       <.patch_link
         class="create-environment"
         to={Routes.environments_path(FleatureWeb.Endpoint, :create, @project)}
       >Create Environment</.patch_link>
     </div>
     """
+  end
+
+  def handle_event("delete_environment", %{"id" => id}, socket) do
+    environment = Environments.get_environment(id: id)
+    Environments.delete_environment(environment)
+
+    {:noreply, assign_environments(socket)}
   end
 end

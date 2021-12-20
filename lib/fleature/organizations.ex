@@ -14,15 +14,24 @@ defmodule Fleature.Organizations do
   end
 
   def delete_organization(organization) do
-    preloads = [:projects, :environments, :environment_tokens, :feature_flags, :users_organizations]
+    preloads = [
+      :projects,
+      :environments,
+      :environment_tokens,
+      :feature_flags,
+      :feature_flag_usages,
+      :users_organizations
+    ]
+
     organization = Repo.preload(organization, preloads)
 
     Multi.new()
-    |> delete_all(organization.feature_flags)
-    |> delete_all(organization.environment_tokens)
-    |> delete_all(organization.environments)
-    |> delete_all(organization.projects)
-    |> delete_all(organization.users_organizations)
+    |> Repo.delete_all_multi(organization.feature_flag_usages)
+    |> Repo.delete_all_multi(organization.feature_flags)
+    |> Repo.delete_all_multi(organization.environment_tokens)
+    |> Repo.delete_all_multi(organization.environments)
+    |> Repo.delete_all_multi(organization.projects)
+    |> Repo.delete_all_multi(organization.users_organizations)
     |> Multi.delete(:organization, organization)
     |> Repo.transaction()
   end
@@ -62,13 +71,5 @@ defmodule Fleature.Organizations do
 
   defp default_order(query) do
     order_by(query, [s], asc: s.name)
-  end
-
-  defp delete_all(multi, items) do
-    items
-    |> Enum.with_index()
-    |> Enum.reduce(multi, fn {item, index}, multi ->
-      Multi.delete(multi, :"#{item.__meta__.source}_#{index}", item)
-    end)
   end
 end

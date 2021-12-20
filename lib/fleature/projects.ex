@@ -2,6 +2,7 @@ defmodule Fleature.Projects do
   @moduledoc false
   import Ecto.Query
 
+  alias Ecto.Multi
   alias Fleature.Repo
   alias Fleature.Schemas.Project
 
@@ -9,6 +10,19 @@ defmodule Fleature.Projects do
     %Project{}
     |> Project.insert_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def delete_project(project) do
+    preloads = [:environments, :feature_flags, :feature_flag_usages, :environment_tokens]
+    project = Repo.preload(project, preloads)
+
+    Multi.new()
+    |> Repo.delete_all_multi(project.feature_flag_usages)
+    |> Repo.delete_all_multi(project.feature_flags)
+    |> Repo.delete_all_multi(project.environment_tokens)
+    |> Repo.delete_all_multi(project.environments)
+    |> Multi.delete(:project, project)
+    |> Repo.transaction()
   end
 
   def query_projects(params) do

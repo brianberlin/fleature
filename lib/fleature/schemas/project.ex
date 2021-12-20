@@ -8,6 +8,9 @@ defmodule Fleature.Schemas.Project do
     field(:name, :string)
     belongs_to(:organization, Fleature.Schemas.Organization)
     has_many(:environments, Fleature.Schemas.Environment)
+    has_many(:feature_flags, through: [:environments, :feature_flags])
+    has_many(:feature_flag_usages, through: [:feature_flags, :feature_flag_usages])
+    has_many(:environment_tokens, through: [:environments, :environment_tokens])
     has_many(:users, through: [:organization, :users])
   end
 

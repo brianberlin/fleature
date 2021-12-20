@@ -65,6 +65,7 @@ defmodule FleatureWeb.Components do
 
   def click_link(assigns) do
     target = Map.get(assigns, :target)
+
     ~H"""
     <a
       href="#"

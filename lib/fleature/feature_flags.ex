@@ -4,7 +4,6 @@ defmodule Fleature.FeatureFlags do
 
   alias Fleature.Repo
   alias Fleature.Schemas.FeatureFlag
-  alias Fleature.Schemas.FeatureFlagUsage
 
   alias Ecto.Multi
 
@@ -23,11 +22,10 @@ defmodule Fleature.FeatureFlags do
   end
 
   def delete_feature_flag(feature_flag) do
-    feature_flag_usages_query =
-      where(FeatureFlagUsage, [ffu], ffu.feature_flag_id == ^feature_flag.id)
+    feature_flag = Repo.preload(feature_flag, [:feature_flag_usages])
 
     Multi.new()
-    |> Multi.delete_all(:feature_flag_usages, feature_flag_usages_query)
+    |> Repo.delete_all_multi(feature_flag.feature_flag_usages)
     |> Multi.delete(:feature_flag, feature_flag)
     |> Repo.transaction()
   end

@@ -2,6 +2,7 @@ defmodule Fleature.Environments do
   @moduledoc false
   import Ecto.Query
 
+  alias Ecto.Multi
   alias Fleature.Repo
   alias Fleature.Schemas.Environment
 
@@ -9,6 +10,18 @@ defmodule Fleature.Environments do
     %Environment{}
     |> Environment.insert_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def delete_environment(environment) do
+    environment =
+      Repo.preload(environment, [:feature_flags, :feature_flag_usages, :environment_tokens])
+
+    Multi.new()
+    |> Repo.delete_all_multi(environment.environment_tokens)
+    |> Repo.delete_all_multi(environment.feature_flag_usages)
+    |> Repo.delete_all_multi(environment.feature_flags)
+    |> Multi.delete(:environment, environment)
+    |> Repo.transaction()
   end
 
   def query_environments(params) do

@@ -5,14 +5,17 @@ defmodule FleatureWeb.OrganizationsLive.View do
   alias Fleature.Projects
 
   def update(assigns, socket) do
-    projects = Projects.list_projects(organization_id: assigns.organization.id)
-
     socket =
       socket
-      |> assign(:projects, projects)
       |> assign(:organization, assigns.organization)
+      |> assign_projects()
 
     {:ok, socket}
+  end
+
+  defp assign_projects(socket) do
+    projects = Projects.list_projects(organization_id: socket.assigns.organization.id)
+    assign(socket, :projects, projects)
   end
 
   def render(assigns) do
@@ -21,20 +24,44 @@ defmodule FleatureWeb.OrganizationsLive.View do
       <.h1><%= @organization.name %></.h1>
       <.breadcrumbs organization={@organization} />
       <.h2>Projects</.h2>
-      <.ul>
+      <.table>
+        <.thead>
+          <.tr>
+            <.th>Name</.th>
+            <.th>Actions</.th>
+          </.tr>
+        </.thead>
+        <.tbody>
         <%= for project <- @projects do %>
-          <.li>
-            <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
-              <%= project.name %>
-            </.patch_link>
-          </.li>
+          <.tr>
+            <.td>
+              <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
+                <%= project.name %>
+              </.patch_link>
+            </.td>
+            <.td><.click_link
+                class={"delete_project_#{project.id}"}
+                click="delete_project"
+                id={project.id}
+                target={@myself}
+              >Delete</.click_link></.td>
+          </.tr>
+
         <% end %>
-      </.ul>
+        </.tbody>
+      </.table>
       <.patch_link
         class="create-project"
         to={Routes.projects_path(FleatureWeb.Endpoint, :create, @organization)}
       >Create Project</.patch_link>
     </div>
     """
+  end
+
+  def handle_event("delete_project", %{"id" => id}, socket) do
+    project = Projects.get_project(id: id)
+    {:ok, _} = Projects.delete_project(project)
+
+    {:noreply, assign_projects(socket)}
   end
 end
