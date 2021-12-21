@@ -24,31 +24,20 @@ defmodule FleatureWeb.OrganizationsLive.View do
       <.h1><%= @organization.name %></.h1>
       <.breadcrumbs organization={@organization} />
       <.h2>Projects</.h2>
-      <.table>
-        <.thead>
-          <.tr>
-            <.th>Name</.th>
-            <.th>Actions</.th>
-          </.tr>
-        </.thead>
-        <.tbody>
-        <%= for project <- @projects do %>
-          <.tr>
-            <.td>
-              <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
-                <%= project.name %>
-              </.patch_link>
-            </.td>
-            <.td><.click_link
-                class={"delete_project_#{project.id}"}
-                click="delete_project"
-                id={project.id}
-                target={@myself}
-              >Delete</.click_link></.td>
-          </.tr>
-
-        <% end %>
-        </.tbody>
+      <.table rows={@projects}>
+        <:col let={project} label="Name">
+          <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
+            <%= project.name %>
+          </.patch_link>
+        </:col>
+        <:col let={project} label="Actions">
+          <.click_link
+            class={"delete_project_#{project.id}"}
+            click="delete_project"
+            id={project.id}
+            target={@myself}
+          >Delete</.click_link>
+        </:col>
       </.table>
       <.patch_link
         class="create-project"

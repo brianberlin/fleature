@@ -25,7 +25,13 @@ config :fleature, FleatureWeb.Endpoint,
   secret_key_base: "uLPjNFqAnlkqIcytdf/gQYVlTHkv8Nug/y+3T4R4EpRebvVZ9UPGBmQyuP34vuyR",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwindcss: [
+      "--input=css/app.css",
+      "--output=../priv/static/assets/app.css",
+      "--watch",
+      cd: Path.expand("../assets", __DIR__)
+    ]
   ]
 
 # ## SSL Support

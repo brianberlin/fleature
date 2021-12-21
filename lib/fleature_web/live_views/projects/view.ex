@@ -20,40 +20,30 @@ defmodule FleatureWeb.ProjectsLive.View do
 
   def render(assigns) do
     ~H"""
-    <div>
+    <.container>
       <.h1><%= @project.name %></.h1>
       <.breadcrumbs project={@project} />
       <.h2>Environments</.h2>
-      <.table>
-        <.thead>
-          <.tr>
-            <.th>Name</.th>
-            <.th>Actions</.th>
-          </.tr>
-        </.thead>
-        <.tbody>
-          <%= for environment <- @environments do %>
-            <.tr>
-              <.td>
-                <.patch_link to={Routes.environments_path(FleatureWeb.Endpoint, :view, environment)}>
-                  <%= environment.name %>
-                </.patch_link>
-              </.td>
-              <.td><.click_link
-                class={"delete_environment_#{environment.id}"}
-                click="delete_environment"
-                id={environment.id}
-                target={@myself}
-              >Delete</.click_link></.td>
-            </.tr>
-          <% end %>
-        </.tbody>
+      <.table rows={@environments}>
+        <:col let={environment} label="Name">
+          <.patch_link to={Routes.environments_path(FleatureWeb.Endpoint, :view, environment)}>
+            <%= environment.name %>
+          </.patch_link>
+        </:col>
+        <:col let={environment} label="Actions">
+          <.click_link
+            class={"delete_environment_#{environment.id}"}
+            click="delete_environment"
+            id={environment.id}
+            target={@myself}
+          >Delete</.click_link>
+        </:col>
       </.table>
       <.patch_link
         class="create-environment"
         to={Routes.environments_path(FleatureWeb.Endpoint, :create, @project)}
       >Create Environment</.patch_link>
-    </div>
+    </.container>
     """
   end
 

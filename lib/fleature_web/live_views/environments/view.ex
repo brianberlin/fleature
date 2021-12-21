@@ -53,33 +53,24 @@ defmodule FleatureWeb.EnvironmentsLive.View do
         phx-target={@myself}
       >Generate Environment Token</a>
       <.h2>Feature Flags</.h2>
-      <.table>
-        <.thead>
-          <.tr>
-            <.th>Name</.th>
-            <.th>Status</.th>
-            <.th>Actions</.th>
-          </.tr>
-        </.thead>
-        <.tbody>
-          <%= for feature_flag <- @feature_flags do %>
-            <.tr>
-              <.td><%= feature_flag.name %></.td>
-              <.td>
-                <.form class="feature-flag-form" let={f} for={make_changeset(feature_flag)} phx-change="save" phx-target={@myself}>
-                  <.hidden_input f={f} key={:id} />
-                  <.checkbox_input f={f} key={:status} />
-                </.form>
-              </.td>
-              <.td><.click_link
-                class={"delete_feature_flag_#{feature_flag.id}"}
-                click="delete_feature_flag"
-                id={feature_flag.id}
-                target={@myself}
-              >Delete</.click_link></.td>
-            </.tr>
-          <% end %>
-        </.tbody>
+      <.table rows={@feature_flags}>
+        <:col let={feature_flag} label="Name">
+          <%= feature_flag.name %>
+        </:col>
+        <:col let={feature_flag} label="Status">
+          <.form class="feature-flag-form" let={f} for={make_changeset(feature_flag)} phx-change="save" phx-target={@myself}>
+            <.hidden_input f={f} key={:id} />
+            <.checkbox_input f={f} key={:status} />
+          </.form>
+        </:col>
+        <:col let={feature_flag} label="Actions">
+          <.click_link
+            class={"delete_feature_flag_#{feature_flag.id}"}
+            click="delete_feature_flag"
+            id={feature_flag.id}
+            target={@myself}
+          >Delete</.click_link>
+        </:col>
       </.table>
       <.patch_link
         class="create-feature_flag"

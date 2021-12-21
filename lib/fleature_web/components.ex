@@ -1,144 +1,42 @@
 defmodule FleatureWeb.Components do
   @moduledoc false
   use FleatureWeb, :components
-  import Phoenix.HTML.Form
-  import FleatureWeb.ErrorHelpers
 
-  def h1(assigns) do
-    ~H"""
-    <h1><%= render_slot(@inner_block) %></h1>
-    """
-  end
+  alias FleatureWeb.Components.Containers
+  alias FleatureWeb.Components.FormElements
+  alias FleatureWeb.Components.Links
+  alias FleatureWeb.Components.Type
+  alias FleatureWeb.Components.Table
+  alias FleatureWeb.Components.Breadcrumbs
 
-  def h2(assigns) do
-    ~H"""
-    <h2><%= render_slot(@inner_block) %></h2>
-    """
-  end
+  defdelegate container(assigns), to: Containers
+  defdelegate form_container(assigns), to: Containers
+  defdelegate form_container_header(assigns), to: Containers
+  defdelegate form_container_section(assigns), to: Containers
 
-  def h3(assigns) do
-    ~H"""
-    <h3><%= render_slot(@inner_block) %></h3>
-    """
-  end
+  defdelegate submit_button(assigns), to: FormElements
+  defdelegate text_input(assigns), to: FormElements
+  defdelegate email_input(assigns), to: FormElements
+  defdelegate password_input(assigns), to: FormElements
+  defdelegate checkbox_input(assigns), to: FormElements
+  defdelegate hidden_input(assigns), to: FormElements
 
-  def p(assigns) do
-    ~H"""
-    <p><%= render_slot(@inner_block) %></p>
-    """
-  end
+  defdelegate patch_link(assigns), to: Links
+  defdelegate click_link(assigns), to: Links
 
-  def ul(assigns) do
-    ~H"""
-    <ul><%= render_slot(@inner_block) %></ul>
-    """
-  end
+  defdelegate h1(assigns), to: Type
+  defdelegate h2(assigns), to: Type
+  defdelegate h3(assigns), to: Type
+  defdelegate p(assigns), to: Type
+  defdelegate ul(assigns), to: Type
+  defdelegate li(assigns), to: Type
 
-  def li(assigns) do
-    ~H"""
-    <li><%= render_slot(@inner_block) %></li>
-    """
-  end
+  defdelegate table(assigns), to: Table
 
-  #########
-  # TABLE #
-  #########
+  defdelegate breadcrumbs(assigns), to: Breadcrumbs
 
-  def table(assigns), do: ~H"<table><%= render_slot(@inner_block) %></table>"
-  def th(assigns), do: ~H"<th><%= render_slot(@inner_block) %></th>"
-  def tr(assigns), do: ~H"<tr><%= render_slot(@inner_block) %></tr>"
-  def td(assigns), do: ~H"<td><%= render_slot(@inner_block) %></td>"
-  def tbody(assigns), do: ~H"<tbody><%= render_slot(@inner_block) %></tbody>"
-  def thead(assigns), do: ~H"<thead><%= render_slot(@inner_block) %></thead>"
-
-  #########
-  # LINKS #
-  #########
-
-  def patch_link(assigns) do
-    ~H"""
-    <%= live_patch(to: @to, class: Map.get(assigns, :class)) do %>
-      <%= render_slot(@inner_block) %>
-    <% end %>
-    """
-  end
-
-  def click_link(assigns) do
-    target = Map.get(assigns, :target)
-
-    ~H"""
-    <a
-      href="#"
-      class={@class}
-      phx-click={@click}
-      phx-value-id={@id}
-      phx-target={target}
-    ><%= render_slot(@inner_block) %></a>
-    """
-  end
-
-  ### FORM
-
-  def submit_button(assigns) do
-    ~H"""
-    <%= submit do %>
-      <%= render_slot(@inner_block) %>
-    <% end %>
-    """
-  end
-
-  def text_input(assigns) do
-    ~H"""
-    <%= label @f, @key %>
-    <%= text_input @f, @key %>
-    <%= error_tag @f, @key %>
-    """
-  end
-
-  def checkbox_input(assigns) do
-    ~H"""
-    <%= checkbox(@f, @key) %>
-    """
-  end
-
-  def hidden_input(assigns) do
-    required = [:f, :key]
-    opts = Enum.filter(assigns, &(&1 in required))
-
-    ~H"""
-    <%= hidden_input(@f, @key, opts) %>
-    """
-  end
-
-  def breadcrumbs(assigns) do
-    # Routes.organizations_path(FleatureWeb.Endpoint, :view, organization)
-    keys = Map.keys(assigns)
-
-    ~H"""
-    <div>
-      <.patch_link to={Routes.home_path(FleatureWeb.Endpoint, :index)}>Home</.patch_link>
-
-      <%= if :project in keys do %>
-        <span>, </span>
-        <.patch_link to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @project.organization)}><%= @project.organization.name %></.patch_link>
-      <% end %>
-
-      <%= if :environment in keys do %>
-        <span>, </span>
-        <.patch_link to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @environment.organization)}><%= @environment.organization.name %></.patch_link>
-        <span>, </span>
-        <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, @environment.project)}><%= @environment.project.name %></.patch_link>
-      <% end %>
-
-      <%= if :feature_flag in keys do  %>
-        <span>, </span>
-        <.patch_link to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @feature_flag.organization)}><%= @feature_flag.organization.name %></.patch_link>
-        <span>, </span>
-        <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, @feature_flag.project)}><%= @feature_flag.project.name %></.patch_link>
-        <span>, </span>
-        <.patch_link to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @feature_flag.organization)}><%= @feature_flag.organization.name %></.patch_link>
-      <% end %>
-    </div>
-    """
+  def get_classes(assigns, default_classes) do
+    classes = Map.get(assigns, :class, "")
+    default_classes <> " " <> classes
   end
 end
