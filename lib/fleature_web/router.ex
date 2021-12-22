@@ -24,6 +24,7 @@ defmodule FleatureWeb.Router do
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
   end
+
   scope "/", FleatureWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 

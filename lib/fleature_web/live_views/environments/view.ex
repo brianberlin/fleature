@@ -10,9 +10,7 @@ defmodule FleatureWeb.EnvironmentsLive.View do
     socket =
       socket
       |> assign(:environment, assigns.environment)
-      |> assign(:user_id, assigns.user_id)
-      |> assign(:client_id, nil)
-      |> assign(:client_secret, nil)
+      |> assign(:user, assigns.user)
       |> assign_feature_flags()
       |> assign_environment_tokens()
 
@@ -22,60 +20,68 @@ defmodule FleatureWeb.EnvironmentsLive.View do
   def render(assigns) do
     ~H"""
     <div>
-      <.h1><%= @environment.name %></.h1>
-      <.breadcrumbs environment={@environment} />
-      <.h2>Environment Tokens</.h2>
-      <%= if not is_nil(@client_id) and not is_nil(@client_secret) do %>
-        <pre><code>
-          New Environment Client Id/Secret
-          ----
-          Client Id: <%= @client_id %>
-          Client Secret: <%= @client_secret %>
-        </code></pre>
-      <% end %>
-      <.ul>
-        <%= for environment_token <- @environment_tokens do %>
-          <.li>
-            <%= environment_token.client_id %>
-            <a
-              href="#"
+      <.container>
+        <.header
+          title="Feature Flags"
+          back={Routes.projects_path(FleatureWeb.Endpoint, :view, @environment.project)}
+          user={@user}
+        >
+          <:breadcrumb title="Home" to={Routes.home_path(FleatureWeb.Endpoint, :index)} />
+          <:breadcrumb title={@environment.organization.name} to={Routes.organizations_path(FleatureWeb.Endpoint, :view, @environment.organization)} />
+          <:breadcrumb title={@environment.project.name} to={Routes.projects_path(FleatureWeb.Endpoint, :view, @environment.project)} />
+          <:breadcrumb title={@environment.name} />
+          <.link patch button to={Routes.feature_flags_path(FleatureWeb.Endpoint, :create, @environment)}>Create Feature Flag</.link>
+        </.header>
+
+        <.table rows={@feature_flags}>
+          <:col let={feature_flag} label="Name">
+            <%= feature_flag.name %>
+          </:col>
+          <:col let={feature_flag} label="Status">
+            <.form class="feature-flag-form" let={f} for={make_changeset(feature_flag)} phx-change="save" phx-target={@myself}>
+              <.hidden_input f={f} key={:id} />
+              <.toggle_input f={f} key={:status} />
+            </.form>
+          </:col>
+          <:col let={feature_flag} label="Actions" class="w-2/12">
+            <.link
+              button secondary small
+              class={"delete_feature_flag_#{feature_flag.id}"}
+              click="delete_feature_flag"
+              id={feature_flag.id}
+              target={@myself}
+            >Delete</.link>
+          </:col>
+        </.table>
+
+        <div class="mt-8 md:flex md:items-center md:justify-between">
+          <div class="flex-1 min-w-0">
+          <.h2 class="mt-0">Environment Tokens</.h2>
+          </div>
+          <div class="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
+            <.link
+              button
+              id="create_environment_token"
+              click="new_environment_token"
+              class="create_environment_token"
+              target={@myself}
+            >Generate Environment Token</.link>
+          </div>
+        </div>
+        <.table rows={@environment_tokens}>
+          <:col let={environment_token} label="Client Id"><%= environment_token.client_id %></:col>
+          <:col let={environment_token} label="Client Secret"><%= environment_token.client_secret %></:col>
+          <:col let={environment_token} label="Actions" class="w-2/12">
+            <.link
+              button secondary small
               class="delete_environment_token"
-              phx-click="delete_environment_token"
-              phx-value-id={environment_token.id}
-              phx-target={@myself}
-            >Delete</a>
-          </.li>
-        <% end %>
-      </.ul>
-      <a
-        class="create_environment_token"
-        phx-click="new_environment_token"
-        phx-target={@myself}
-      >Generate Environment Token</a>
-      <.h2>Feature Flags</.h2>
-      <.table rows={@feature_flags}>
-        <:col let={feature_flag} label="Name">
-          <%= feature_flag.name %>
-        </:col>
-        <:col let={feature_flag} label="Status">
-          <.form class="feature-flag-form" let={f} for={make_changeset(feature_flag)} phx-change="save" phx-target={@myself}>
-            <.hidden_input f={f} key={:id} />
-            <.checkbox_input f={f} key={:status} />
-          </.form>
-        </:col>
-        <:col let={feature_flag} label="Actions">
-          <.click_link
-            class={"delete_feature_flag_#{feature_flag.id}"}
-            click="delete_feature_flag"
-            id={feature_flag.id}
-            target={@myself}
-          >Delete</.click_link>
-        </:col>
-      </.table>
-      <.patch_link
-        class="create-feature_flag"
-        to={Routes.feature_flags_path(FleatureWeb.Endpoint, :create, @environment)}
-      >Create Feature Flag</.patch_link>
+              click="delete_environment_token"
+              id={environment_token.id}
+              target={@myself}
+            >Delete</.link>
+          </:col>
+        </.table>
+      </.container>
     </div>
     """
   end
@@ -94,7 +100,11 @@ defmodule FleatureWeb.EnvironmentsLive.View do
     {:noreply, assign_feature_flags(socket)}
   end
 
-  def handle_event("new_environment_token", _params, socket) do
+  def handle_event(
+        "new_environment_token",
+        _params,
+        %{assigns: %{environment_tokens: environment_tokens}} = socket
+      ) do
     client_id = 16 |> :crypto.strong_rand_bytes() |> Base.encode64()
     client_secret = 32 |> :crypto.strong_rand_bytes() |> Base.encode64()
     hashed_client_secret = Bcrypt.hash_pwd_salt(client_secret)
@@ -103,18 +113,13 @@ defmodule FleatureWeb.EnvironmentsLive.View do
       client_id: client_id,
       hashed_client_secret: hashed_client_secret,
       environment_id: socket.assigns.environment.id,
-      user_id: socket.assigns.user_id
+      user_id: socket.assigns.user.id
     }
 
-    {:ok, _environment_token} = EnvironmentTokens.insert_environment_token(attrs)
+    {:ok, environment_token} = EnvironmentTokens.insert_environment_token(attrs)
+    environment_token = Map.put(environment_token, :client_secret, client_secret)
 
-    socket =
-      socket
-      |> assign(:client_id, client_id)
-      |> assign(:client_secret, client_secret)
-      |> assign_environment_tokens()
-
-    {:noreply, socket}
+    {:noreply, assign(socket, :environment_tokens, environment_tokens ++ [environment_token])}
   end
 
   def handle_event("save", %{"feature_flag" => params}, socket) do

@@ -13,7 +13,11 @@ defmodule FleatureWeb.Components.Type do
   end
 
   def h2(assigns) do
-    class = get_classes(assigns, "mt-6 text-3xl font-extrabold text-gray-700")
+    class =
+      get_classes(
+        assigns,
+        "mt-6 leading-7 text-2xl font-bold text-gray-600 sm:text-3xl sm:truncate"
+      )
 
     ~H"""
     <h2 class={class}><%= render_slot(@inner_block) %></h2>

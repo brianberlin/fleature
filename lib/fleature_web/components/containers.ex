@@ -21,29 +21,18 @@ defmodule FleatureWeb.Components.Containers do
 
     ~H"""
     <div class={class}>
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  def form_container_header(assigns) do
-    class = get_classes(assigns, "sm:mx-auto sm:w-full sm:max-w-md")
-
-    ~H"""
-    <div class={class}>
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  def form_container_section(assigns) do
-    class = get_classes(assigns, "mt-8 sm:mx-auto sm:w-full sm:max-w-md")
-
-    ~H"""
-    <div class={class}>
-      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <%= render_slot(@inner_block) %>
-      </div>
+      <%= for header <- @header do %>
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+          <%= render_slot(header) %>
+        </div>
+      <% end %>
+      <%= for body <- @body do %>
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <%= render_slot(body) %>
+          </div>
+        </div>
+      <% end %>
     </div>
     """
   end

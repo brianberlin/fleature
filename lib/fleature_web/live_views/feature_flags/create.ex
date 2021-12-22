@@ -22,12 +22,18 @@ defmodule FleatureWeb.FeatureFlagsLive.Create do
   def render(assigns) do
     ~H"""
     <div>
-      <.h1>Create a Feature Flag</.h1>
-      <.form class="feature-flag-form" let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-target={@myself}>
-        <.text_input f={f} key={:name} />
-        <.hidden_input f={f} key={:environment_id} value={@environment.id} />
-        <.submit_button>Save</.submit_button>
-      </.form>
+      <.form_container>
+        <:header>
+          <.h2>Create a Feature Flag</.h2>
+        </:header>
+        <:body>
+          <.form class="feature-flag-form" let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-target={@myself}>
+            <.text_input f={f} key={:name} />
+            <.hidden_input f={f} key={:environment_id} value={@environment.id} />
+            <.submit_button>Save</.submit_button>
+          </.form>
+        </:body>
+      </.form_container>
     </div>
     """
   end

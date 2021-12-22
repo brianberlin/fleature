@@ -9,7 +9,6 @@ defmodule FleatureWeb.HomeLiveTest do
       %{organization: %{name: name2}} = user |> with_organization()
 
       {:ok, view, html} = live(conn, Routes.home_path(conn, :index))
-      assert html =~ "Welcome to Fleature"
       assert html =~ "Organizations"
       assert html =~ name1
       assert html =~ name2

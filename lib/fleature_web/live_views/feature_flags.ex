@@ -12,7 +12,7 @@ defmodule FleatureWeb.FeatureFlagsLive do
 
     socket =
       socket
-      |> assign(:current_user, user)
+      |> assign(:user, user)
 
     {:ok, socket}
   end
@@ -25,12 +25,14 @@ defmodule FleatureWeb.FeatureFlagsLive do
         module={FleatureWeb.FeatureFlagsLive.View}
         id="view"
         feature_flag={@feature_flag}
+        user={@user}
       />
     <% :create -> %>
       <.live_component
         module={FleatureWeb.FeatureFlagsLive.Create}
         id={@environment.id}
         environment={@environment}
+        user={@user}
       />
     <% end %>
     """

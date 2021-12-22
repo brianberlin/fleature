@@ -25,8 +25,8 @@ defmodule FleatureWeb.Projects.CreateTest do
     |> element("form")
     |> render_submit(%{project: %{name: "Test2", organization_id: organization.id}})
 
-    [project] = Fleature.Projects.list_projects([])
+    assert [_project] = Fleature.Projects.list_projects([])
 
-    assert_patch(view, Routes.projects_path(FleatureWeb.Endpoint, :view, project))
+    assert_redirect(view, Routes.organizations_path(FleatureWeb.Endpoint, :view, organization))
   end
 end

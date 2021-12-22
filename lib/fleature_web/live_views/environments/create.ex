@@ -22,12 +22,18 @@ defmodule FleatureWeb.EnvironmentsLive.Create do
   def render(assigns) do
     ~H"""
     <div>
-      <.h1>Create an Environment</.h1>
-      <.form class="environment-form" let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-target={@myself}>
-        <.text_input f={f} key={:name} />
-        <.hidden_input f={f} key={:project_id} value={@project.id} />
-        <.submit_button>Save</.submit_button>
-      </.form>
+      <.form_container>
+        <:header>
+          <.h2 class="text-center">Create an Environment</.h2>
+        </:header>
+        <:body>
+          <.form class="environment-form" let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-target={@myself}>
+            <.text_input f={f} key={:name} />
+            <.hidden_input f={f} key={:project_id} value={@project.id} />
+            <.submit_button>Save</.submit_button>
+          </.form>
+        </:body>
+      </.form_container>
     </div>
     """
   end
@@ -39,10 +45,10 @@ defmodule FleatureWeb.EnvironmentsLive.Create do
 
   def handle_event("save", %{"environment" => params}, socket) do
     case Environments.insert_environment(params) do
-      {:ok, environment} ->
-        path = Routes.environments_path(FleatureWeb.Endpoint, :view, environment)
+      {:ok, _environment} ->
+        path = Routes.projects_path(FleatureWeb.Endpoint, :view, socket.assigns.project)
 
-        {:noreply, push_patch(socket, to: path)}
+        {:noreply, push_redirect(socket, to: path)}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

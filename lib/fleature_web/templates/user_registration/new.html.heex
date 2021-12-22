@@ -1,18 +1,16 @@
 <.form_container>
-  <.form_container_header>
+  <:header>
     <.h2 class="text-center">Register for a new account</.h2>
-    <.p class="text-center">Or <.patch_link to={Routes.user_registration_path(@conn, :new)}>sign into an existing one.</.patch_link></.p>
-  </.form_container_header>
-  <.form_container_section>
-
+    <.p class="text-center">Or <.link patch to={Routes.user_registration_path(@conn, :new)}>sign into an existing one.</.link></.p>
+  </:header>
+  <:body>
     <.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
       <.email_input f={f} key={:email} required />
       <.password_input f={f} key={:password} required />
       <.submit_button class="mt-5">Register</.submit_button>
     </.form>
-
-    <.p class="mt-7"><.patch_link to={Routes.user_session_path(@conn, :new)}>Already have an account?</.patch_link></.p>
-    <.p><.patch_link to={Routes.user_reset_password_path(@conn, :new)}>Forgot your password?</.patch_link></.p>
-  </.form_container_section>
+    <.p class="mt-7"><.link patch to={Routes.user_session_path(@conn, :new)}>Already have an account?</.link></.p>
+    <.p><.link patch to={Routes.user_reset_password_path(@conn, :new)}>Forgot your password?</.link></.p>
+  </:body>
 
 </.form_container>

@@ -19,11 +19,17 @@ defmodule FleatureWeb.OrganizationsLive.Create do
   def render(assigns) do
     ~H"""
     <div>
-      <.h1>Create an Organization</.h1>
-      <.form class="organization-form" let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-target={@myself}>
-        <.text_input f={f} key={:name} />
-        <.submit_button>Save</.submit_button>
-      </.form>
+      <.form_container>
+        <:header>
+          <.h2>Create an Organization</.h2>
+        </:header>
+        <:body>
+          <.form class="organization-form" let={f} for={@changeset} phx-change="validate" phx-submit="save" phx-target={@myself}>
+            <.text_input f={f} key={:name} />
+            <.submit_button>Save</.submit_button>
+          </.form>
+        </:body>
+      </.form_container>
     </div>
     """
   end
@@ -35,9 +41,9 @@ defmodule FleatureWeb.OrganizationsLive.Create do
 
   def handle_event("save", %{"organization" => params}, socket) do
     case Organizations.insert_organization(socket.assigns.user, params) do
-      {:ok, organization} ->
-        path = Routes.organizations_path(FleatureWeb.Endpoint, :view, organization)
-        {:noreply, push_patch(socket, to: path)}
+      {:ok, _organization} ->
+        path = Routes.home_path(FleatureWeb.Endpoint, :index)
+        {:noreply, push_redirect(socket, to: path)}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

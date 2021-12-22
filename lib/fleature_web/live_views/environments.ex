@@ -9,7 +9,7 @@ defmodule FleatureWeb.EnvironmentsLive do
 
   def mount(_, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
-    {:ok, assign(socket, :current_user, user)}
+    {:ok, assign(socket, :user, user)}
   end
 
   def render(assigns) do
@@ -20,13 +20,14 @@ defmodule FleatureWeb.EnvironmentsLive do
         module={FleatureWeb.EnvironmentsLive.View}
         id={@environment.id}
         environment={@environment}
-        user_id={@current_user.id}
+        user={@user}
       />
     <% :create -> %>
       <.live_component
         module={FleatureWeb.EnvironmentsLive.Create}
         id="create"
         project={@project}
+        user={@user}
       />
     <% end %>
     """

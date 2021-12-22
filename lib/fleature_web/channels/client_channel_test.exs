@@ -26,11 +26,4 @@ defmodule FleatureWeb.ClientChannelTest do
     feature_flags = %{feature_flag.name => feature_flag.status}
     assert_push("update_one", ^feature_flags)
   end
-
-  test "usage", %{socket: socket, environment_token: environment_token} do
-    feature_flag = insert(:feature_flag, environment: environment_token.environment)
-    push(socket, "usage", %{feature_flag.name => 1})
-
-    assert_enqueued(worker: Fleature.FeatureFlagUsages)
-  end
 end

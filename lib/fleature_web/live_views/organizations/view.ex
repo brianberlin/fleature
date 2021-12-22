@@ -8,6 +8,7 @@ defmodule FleatureWeb.OrganizationsLive.View do
     socket =
       socket
       |> assign(:organization, assigns.organization)
+      |> assign(:user, assigns.user)
       |> assign_projects()
 
     {:ok, socket}
@@ -21,28 +22,29 @@ defmodule FleatureWeb.OrganizationsLive.View do
   def render(assigns) do
     ~H"""
     <div>
-      <.h1><%= @organization.name %></.h1>
-      <.breadcrumbs organization={@organization} />
-      <.h2>Projects</.h2>
-      <.table rows={@projects}>
-        <:col let={project} label="Name">
-          <.patch_link to={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
-            <%= project.name %>
-          </.patch_link>
-        </:col>
-        <:col let={project} label="Actions">
-          <.click_link
-            class={"delete_project_#{project.id}"}
-            click="delete_project"
-            id={project.id}
-            target={@myself}
-          >Delete</.click_link>
-        </:col>
-      </.table>
-      <.patch_link
-        class="create-project"
-        to={Routes.projects_path(FleatureWeb.Endpoint, :create, @organization)}
-      >Create Project</.patch_link>
+      <.container>
+        <.header title="Projects" back={Routes.home_path(FleatureWeb.Endpoint, :index)} user={@user}>
+          <:breadcrumb title="Home" to={Routes.home_path(FleatureWeb.Endpoint, :index)} />
+          <:breadcrumb title={@organization.name} />
+          <.link patch button to={Routes.projects_path(FleatureWeb.Endpoint, :create, @organization)} class="create-project">Create Project</.link>
+        </.header>
+        <.table rows={@projects}>
+          <:col let={project} label="Name">
+            <.link patch to={Routes.projects_path(FleatureWeb.Endpoint, :view, project)}>
+              <%= project.name %>
+            </.link>
+          </:col>
+          <:col let={project} label="Actions" class="w-2/12">
+            <.link
+              button secondary small
+              class={"delete_project_#{project.id}"}
+              click="delete_project"
+              id={project.id}
+              target={@myself}
+            >Delete</.link>
+          </:col>
+        </.table>
+      </.container>
     </div>
     """
   end

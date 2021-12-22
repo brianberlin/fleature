@@ -1,17 +1,17 @@
 <.form_container>
-  <.form_container_header>
+  <:header>
     <.h2 class="text-center">Sign in to your account</.h2>
-    <.p class="text-center">Or <.patch_link to={Routes.user_registration_path(@conn, :new)}>create an account</.patch_link></.p>
-  </.form_container_header>
-  <.form_container_section>
+    <.p class="text-center">Or <.link patch to={Routes.user_registration_path(@conn, :new)}>create an account</.link></.p>
+  </:header>
+  <:body>
     <.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
       <.email_input f={f} key={:email} required />
       <.password_input f={f} key={:password} required />
       <div class="flex justify-between mt-5">
         <.checkbox_input f={f} key={:remember_me} />
-        <.patch_link to={Routes.user_reset_password_path(@conn, :new)}>Forgot your password?</.patch_link>
+        <.link patch to={Routes.user_reset_password_path(@conn, :new)}>Forgot your password?</.link>
       </div>
       <.submit_button class="mt-5">Log in</.submit_button>
     </.form>
-  </.form_container_section>
+  </:body>
 </.form_container>

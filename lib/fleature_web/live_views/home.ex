@@ -18,36 +18,37 @@ defmodule FleatureWeb.HomeLive do
   end
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :user, nil), temporary_assigns: [organizations: nil]}
+    {:ok, push_redirect(socket, to: Routes.user_session_path(FleatureWeb.Endpoint, :new))}
   end
 
   def render(assigns) do
     ~H"""
     <.container>
-    <.h1>Welcome to Fleature</.h1>
-    <%= if not is_nil(@user) do %>
-      <.h2>Organizations</.h2>
+      <%= if not is_nil(@user) do %>
+      <.header title="Organizations" user={@user}>
+        <:breadcrumb title="Home" />
+        <.link patch button to={Routes.organizations_path(FleatureWeb.Endpoint, :create)} class="create-organization">Create Organization</.link>
+      </.header>
+
       <.table rows={@organizations}>
         <:col let={organization} label="Name">
-          <.patch_link
+          <.link
+            patch
             class={"organization-link-#{organization.id}"}
             to={Routes.organizations_path(FleatureWeb.Endpoint, :view, organization)}
           >
             <%= organization.name %>
-          </.patch_link>
+          </.link>
         </:col>
-        <:col let={organization} label="Actions">
-          <.click_link
+        <:col let={organization} label="Actions" class="w-2/12">
+          <.link
+            button secondary small
             class={"delete_organization_#{organization.id}"}
             click="delete_organization"
             id={organization.id}
-          >Delete</.click_link>
+          >Delete</.link>
         </:col>
       </.table>
-      <.patch_link
-        class="create-organization"
-        to={Routes.organizations_path(FleatureWeb.Endpoint, :create)}
-      >Create Organization</.patch_link>
     <% end %>
     </.container>
     """

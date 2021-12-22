@@ -20,11 +20,11 @@ defmodule FleatureWeb.EnvironmentsLive.CreateTest do
     |> element("form")
     |> render_submit(%{environment: %{name: "Test2", organization_id: organization.id}})
 
-    [environment] = Fleature.Environments.list_environments([])
+    assert [_environment] = Fleature.Environments.list_environments([])
 
-    assert_patch(
+    assert_redirect(
       view,
-      Routes.environments_path(FleatureWeb.Endpoint, :view, environment)
+      Routes.projects_path(FleatureWeb.Endpoint, :view, project)
     )
   end
 end

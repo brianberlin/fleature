@@ -81,7 +81,11 @@ defmodule Fleature.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "test.watch": ["ecto.create --quiet", "ecto.migrate --quiet", "test.watch"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": [
+        "cmd --cd assets tailwindcss --content=./js/**/*.js --content=../lib/fleature_web/**/*.*ex --input=css/app.css --output=../priv/static/assets/app.css",
+        "esbuild default --minify",
+        "phx.digest"
+      ]
     ]
   end
 end

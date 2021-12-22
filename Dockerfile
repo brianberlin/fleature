@@ -1,32 +1,22 @@
-# Find eligible builder and runner images on Docker Hub. We use Ubuntu/Debian instead of
-# Alpine to avoid DNS resolution issues in production.
-#
-# https://hub.docker.com/r/hexpm/elixir/tags?page=1&name=ubuntu
-# https://hub.docker.com/_/ubuntu?tab=tags
-#
-#
-# This file is based on these images:
-#
-#   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
-#   - https://hub.docker.com/_/debian?tab=tags&page=1&name=bullseye-20210902-slim - for the release image
-#   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: hexpm/elixir:1.12.2-erlang-24.0.5-debian-bullseye-20210902-slim
-#
 ARG BUILDER_IMAGE="hexpm/elixir:1.12.2-erlang-24.0.5-debian-bullseye-20210902-slim"
 ARG RUNNER_IMAGE="debian:bullseye-20210902-slim"
 
 FROM ${BUILDER_IMAGE} as builder
 
 # install build dependencies
-RUN apt-get update -y && apt-get install -y build-essential git \
-    && apt-get clean && rm -f /var/lib/apt/lists/*_*
+RUN apt-get update -y && apt-get install -y build-essential git curl \
+  && apt-get clean && rm -f /var/lib/apt/lists/*_*
+
+RUN curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.0.7/tailwindcss-linux-x64
+RUN chmod +x tailwindcss-linux-x64
+RUN mv tailwindcss-linux-x64 /usr/bin/tailwindcss
 
 # prepare build dir
 WORKDIR /app
 
 # install hex + rebar
 RUN mix local.hex --force && \
-    mix local.rebar --force
+  mix local.rebar --force
 
 # set build ENV
 ENV MIX_ENV="prod"

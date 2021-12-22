@@ -29,7 +29,6 @@ config :fleature, FleatureWeb.Endpoint,
     tailwindcss: [
       "--input=css/app.css",
       "--output=../priv/static/assets/app.css",
-      "--watch",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]

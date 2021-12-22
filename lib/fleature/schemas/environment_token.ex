@@ -6,6 +6,7 @@ defmodule Fleature.Schemas.EnvironmentToken do
 
   schema "environment_tokens" do
     field(:client_id, :binary)
+    field(:client_secret, :binary, virtual: true)
     field(:hashed_client_secret, :binary)
     belongs_to(:environment, Fleature.Schemas.Environment)
     belongs_to(:user, Fleature.Schemas.User)
