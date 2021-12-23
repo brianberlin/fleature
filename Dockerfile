@@ -7,9 +7,8 @@ FROM ${BUILDER_IMAGE} as builder
 RUN apt-get update -y && apt-get install -y build-essential git curl \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
-RUN curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.0.7/tailwindcss-linux-x64
-RUN chmod +x tailwindcss-linux-x64
-RUN mv tailwindcss-linux-x64 /usr/bin/tailwindcss
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
 
 # prepare build dir
 WORKDIR /app
@@ -38,14 +37,14 @@ COPY priv priv
 # which customizes asset compilation based on what it finds in
 # your Elixir templates, you will need to move the asset compilation
 # step down so that `lib` is available.
-COPY assets assets
+COPY . .
+
+RUN (cd assets; npm install)
 
 # compile assets
 RUN mix assets.deploy
 
 # Compile the release
-COPY lib lib
-
 RUN mix compile
 
 # Changes to config/runtime.exs don't require recompiling the code
