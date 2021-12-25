@@ -42,6 +42,11 @@ defmodule FleatureWeb.HomeLive do
         </:col>
         <:col let={organization} label="Actions" class="w-2/12">
           <.link
+            button secondary small patch
+            class={"edit_organization_#{organization.id}"}
+            to={Routes.organizations_path(FleatureWeb.Endpoint, :edit, organization)}
+          >Edit</.link>
+          <.link
             button secondary small
             class={"delete_organization_#{organization.id}"}
             click="delete_organization"

@@ -13,6 +13,12 @@ defmodule Fleature.Organizations do
     |> Repo.insert()
   end
 
+  def update_organization(organization, attrs) do
+    organization
+    |> Organization.update_changeset(attrs)
+    |> Repo.update()
+  end
+
   def delete_organization(organization) do
     preloads = [
       :projects,

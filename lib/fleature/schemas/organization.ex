@@ -24,4 +24,10 @@ defmodule Fleature.Schemas.Organization do
     |> put_assoc(:users, [user])
     |> validate_required([:name])
   end
+
+  def update_changeset(organization, attrs \\ %{}) do
+    organization
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
+  end
 end

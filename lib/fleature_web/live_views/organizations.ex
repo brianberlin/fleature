@@ -26,6 +26,13 @@ defmodule FleatureWeb.OrganizationsLive do
         organization={@organization}
         user={@user}
       />
+    <% :edit -> %>
+      <.live_component
+        module={FleatureWeb.OrganizationsLive.Edit}
+        id="edit_#{@organization.id}"
+        organization={@organization}
+        user={@user}
+      />
     <% end %>
     """
   end
