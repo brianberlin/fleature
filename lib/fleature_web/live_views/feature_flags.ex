@@ -34,6 +34,13 @@ defmodule FleatureWeb.FeatureFlagsLive do
         environment={@environment}
         user={@user}
       />
+    <% :edit -> %>
+      <.live_component
+        module={FleatureWeb.FeatureFlagsLive.Edit}
+        id={@feature_flag.id}
+        feature_flag={@feature_flag}
+        user={@user}
+      />
     <% end %>
     """
   end

@@ -45,6 +45,10 @@ defmodule FleatureWeb.EnvironmentsLive.View do
           </:col>
           <:col let={feature_flag} label="Actions" class="w-2/12">
             <.link
+              button secondary small patch
+              to={Routes.feature_flags_path(FleatureWeb.Endpoint, :edit, feature_flag)}
+            >Edit</.link>
+            <.link
               button secondary small
               class={"delete_feature_flag_#{feature_flag.id}"}
               click="delete_feature_flag"

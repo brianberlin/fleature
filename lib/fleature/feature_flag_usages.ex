@@ -7,6 +7,8 @@ defmodule Fleature.FeatureFlagUsages do
   alias Fleature.Schemas.FeatureFlagUsage
 
   def perform(%{args: %{"client_id" => client_id, "data" => data}}) do
+    client_id = Base.decode64!(client_id)
+
     data
     |> Map.to_list()
     |> Enum.reduce([], fn {name, count}, acc ->

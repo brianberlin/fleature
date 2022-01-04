@@ -2,7 +2,7 @@ defmodule Fleature.EnvironmentTokenFactory do
   defmacro __using__(_opts) do
     quote do
       def environment_token_factory do
-        client_id = :crypto.strong_rand_bytes(16)
+        client_id = 16 |> :crypto.strong_rand_bytes() |> Base.encode64()
         %Fleature.Schemas.EnvironmentToken{
           client_id: client_id,
           hashed_client_secret: :crypto.hash(:sha256, client_id),

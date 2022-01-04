@@ -21,6 +21,12 @@ defmodule Fleature.FeatureFlags do
     |> broadcast_feature_flag_status()
   end
 
+  def update_feature_flag(feature_flag, attrs) do
+    feature_flag
+    |> FeatureFlag.update_changeset(attrs)
+    |> Repo.update()
+  end
+
   def delete_feature_flag(feature_flag) do
     feature_flag = Repo.preload(feature_flag, [:feature_flag_usages])
 

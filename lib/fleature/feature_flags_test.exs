@@ -12,4 +12,10 @@ defmodule Fleature.FeatureFlagsTest do
     %{id: id} = insert(:feature_flag)
     assert %{id: ^id} = get_feature_flag(id: id)
   end
+
+  test "get_feature_flag by client_id" do
+    environment_token = insert(:environment_token)
+    feature_flag = insert(:feature_flag, environment: environment_token.environment)
+    assert %{} = get_feature_flag(client_id: environment_token.client_id)
+  end
 end

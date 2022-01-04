@@ -6,8 +6,7 @@ defmodule FleatureWeb.ClientChannel do
   alias Fleature.FeatureFlagUsages
 
   @impl true
-  def join("client:" <> client_id, _payload, socket) do
-    Phoenix.PubSub.subscribe(Fleature.PubSub, "client:" <> client_id)
+  def join("client:" <> _client_id, _payload, socket) do
     send(self(), :update_all)
     {:ok, socket}
   end
@@ -19,6 +18,7 @@ defmodule FleatureWeb.ClientChannel do
   end
 
   def handle_info({:update_one, name, status}, socket) do
+    push(socket, "update_all", feature_flag_response(socket.assigns.client_id))
     push(socket, "update_one", %{name: name, status: status})
     {:noreply, socket}
   end
