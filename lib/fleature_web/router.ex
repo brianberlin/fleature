@@ -57,6 +57,10 @@ defmodule FleatureWeb.Router do
            EnvironmentsLive,
            :view
 
+      live "/environments/:environment_id/edit",
+           EnvironmentsLive,
+           :edit
+
       live "/environments/:environment_id/feature_flags/create",
            FeatureFlagsLive,
            :create

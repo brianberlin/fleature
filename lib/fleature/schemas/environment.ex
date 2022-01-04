@@ -18,4 +18,10 @@ defmodule Fleature.Schemas.Environment do
     |> cast(attrs, [:name, :project_id])
     |> validate_required([:name, :project_id])
   end
+
+  def update_changeset(environment, attrs \\ %{}) do
+    environment
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
+  end
 end

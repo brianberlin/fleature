@@ -12,6 +12,12 @@ defmodule Fleature.Environments do
     |> Repo.insert()
   end
 
+  def update_environment(environment, attrs) do
+    environment
+    |> Environment.update_changeset(attrs)
+    |> Repo.update()
+  end
+
   def delete_environment(environment) do
     environment =
       Repo.preload(environment, [:feature_flags, :feature_flag_usages, :environment_tokens])

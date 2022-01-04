@@ -38,6 +38,10 @@ defmodule FleatureWeb.ProjectsLive.View do
           </:col>
           <:col let={environment} label="Actions" class="w-2/12">
             <.link
+              button secondary small patch
+              to={Routes.environments_path(FleatureWeb.Endpoint, :edit, environment)}
+            >Edit</.link>
+            <.link
               button secondary small
               class={"delete_environment_#{environment.id}"}
               click="delete_environment"

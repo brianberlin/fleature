@@ -29,6 +29,13 @@ defmodule FleatureWeb.EnvironmentsLive do
         project={@project}
         user={@user}
       />
+    <% :edit -> %>
+      <.live_component
+        module={FleatureWeb.EnvironmentsLive.Edit}
+        id="edit_#{@environment.id}"
+        environment={@environment}
+        user={@user}
+      />
     <% end %>
     """
   end

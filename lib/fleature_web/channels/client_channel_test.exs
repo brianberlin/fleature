@@ -23,7 +23,7 @@ defmodule FleatureWeb.ClientChannelTest do
   test "update_one", %{socket: socket, environment_token: environment_token} do
     feature_flag = insert(:feature_flag, environment: environment_token.environment)
     send(socket.channel_pid, {:update_one, feature_flag.name, feature_flag.status})
-    feature_flags = %{feature_flag.name => feature_flag.status}
+    feature_flags = %{name: feature_flag.name, status: feature_flag.status}
     assert_push("update_one", ^feature_flags)
   end
 end
