@@ -50,6 +50,7 @@ defmodule FleatureWeb.EnvironmentsLive.View do
               click="delete_feature_flag"
               id={feature_flag.id}
               target={@myself}
+              data={[confirm: "Are you sure?"]}
             >Delete</.link>
           </:col>
         </.table>
@@ -70,7 +71,13 @@ defmodule FleatureWeb.EnvironmentsLive.View do
         </div>
         <.table rows={@environment_tokens}>
           <:col let={environment_token} label="Client Id"><%= environment_token.client_id %></:col>
-          <:col let={environment_token} label="Client Secret"><%= environment_token.client_secret %></:col>
+          <:col let={environment_token} label="Client Secret">
+            <%= if is_nil(environment_token.client_secret) do %>
+              ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+            <% else %>
+              <%= environment_token.client_secret %>
+            <% end %>
+          </:col>
           <:col let={environment_token} label="Actions" class="w-2/12">
             <.link
               button secondary small
@@ -78,6 +85,7 @@ defmodule FleatureWeb.EnvironmentsLive.View do
               click="delete_environment_token"
               id={environment_token.id}
               target={@myself}
+              data={[confirm: "Are you sure?"]}
             >Delete</.link>
           </:col>
         </.table>

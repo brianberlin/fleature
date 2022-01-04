@@ -19,4 +19,10 @@ defmodule Fleature.Schemas.Project do
     |> cast(attrs, [:name, :organization_id])
     |> validate_required([:name, :organization_id])
   end
+
+  def update_changeset(project, attrs \\ %{}) do
+    project
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
+  end
 end

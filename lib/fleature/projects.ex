@@ -12,6 +12,12 @@ defmodule Fleature.Projects do
     |> Repo.insert()
   end
 
+  def update_project(project, attrs) do
+    project
+    |> Project.update_changeset(attrs)
+    |> Repo.update()
+  end
+
   def delete_project(project) do
     preloads = [:environments, :feature_flags, :feature_flag_usages, :environment_tokens]
     project = Repo.preload(project, preloads)

@@ -36,11 +36,16 @@ defmodule FleatureWeb.OrganizationsLive.View do
           </:col>
           <:col let={project} label="Actions" class="w-2/12">
             <.link
+              button secondary small patch
+              to={Routes.projects_path(FleatureWeb.Endpoint, :edit, project)}
+            >Edit</.link>
+            <.link
               button secondary small
               class={"delete_project_#{project.id}"}
               click="delete_project"
               id={project.id}
               target={@myself}
+              data={[confirm: "Are you sure?"]}
             >Delete</.link>
           </:col>
         </.table>

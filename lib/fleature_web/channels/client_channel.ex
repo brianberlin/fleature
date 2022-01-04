@@ -19,7 +19,7 @@ defmodule FleatureWeb.ClientChannel do
   end
 
   def handle_info({:update_one, name, status}, socket) do
-    push(socket, "update_one", %{name => status})
+    push(socket, "update_one", %{key: name, value: status})
     {:noreply, socket}
   end
 

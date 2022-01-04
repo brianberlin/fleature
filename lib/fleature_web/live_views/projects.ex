@@ -29,6 +29,14 @@ defmodule FleatureWeb.ProjectsLive do
         organization={@organization}
         user={@user}
       />
+    <% :edit -> %>
+      <.live_component
+        module={FleatureWeb.ProjectsLive.Edit}
+        id="edit_#{@project.id}"
+        project={@project}
+        user={@user}
+      />
+
     <% end %>
     """
   end

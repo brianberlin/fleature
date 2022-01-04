@@ -51,6 +51,7 @@ defmodule FleatureWeb.HomeLive do
             class={"delete_organization_#{organization.id}"}
             click="delete_organization"
             id={organization.id}
+            data={[confirm: "Are you sure?"]}
           >Delete</.link>
         </:col>
       </.table>

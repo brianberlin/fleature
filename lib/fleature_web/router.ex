@@ -47,6 +47,7 @@ defmodule FleatureWeb.Router do
       live "/organizations/:organization_id/edit", OrganizationsLive, :edit
       live "/organizations/:organization_id/projects/create", ProjectsLive, :create
       live "/projects/:project_id", ProjectsLive, :view
+      live "/projects/:project_id/edit", ProjectsLive, :edit
 
       live "/projects/:project_id/environments/create",
            EnvironmentsLive,

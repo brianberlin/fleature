@@ -43,6 +43,7 @@ defmodule FleatureWeb.ProjectsLive.View do
               click="delete_environment"
               id={environment.id}
               target={@myself}
+              data={[confirm: "Are you sure?"]}
             >Delete</.link>
           </:col>
         </.table>
