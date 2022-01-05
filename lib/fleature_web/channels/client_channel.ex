@@ -14,6 +14,13 @@ defmodule FleatureWeb.ClientChannel do
   @impl true
   def handle_info(:update_all, socket) do
     push(socket, "update_all", feature_flag_response(socket.assigns.client_id))
+
+    [client_id: socket.assigns.client_id]
+    |> FeatureFlags.list_feature_flags()
+    |> Enum.each(fn %{name: name, status: status} ->
+      push(socket, "update_one", %{name: name, status: status})
+    end)
+
     {:noreply, socket}
   end
 
@@ -25,7 +32,7 @@ defmodule FleatureWeb.ClientChannel do
 
   @impl true
   def handle_in("usage", data, socket) do
-    args = %{client_id: Base.encode64(socket.assigns.client_id), data: data}
+    args = %{client_id: socket.assigns.client_id, data: data}
 
     args
     |> FeatureFlagUsages.new(queue: :default, max_attempts: 1)
