@@ -32,7 +32,7 @@ defmodule FleatureWeb.UserSessionControllerTest do
       assert redirected_to(conn) == "/"
 
       # Now do a logged in request and assert on the menu
-      conn = get(conn, "/")
+      conn = get(conn, "/app")
       response = html_response(conn, 200)
       assert response =~ user.email
       assert response =~ "Settings</a>"

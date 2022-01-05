@@ -14,7 +14,7 @@ defmodule FleatureWeb.Components.Links do
     """
   end
 
-  def link(assigns) do
+  def link(%{click: _} = assigns) do
     target = Map.get(assigns, :target)
     class = get_classes(assigns, classes(assigns))
     data = Map.get(assigns, :data, [])
@@ -26,6 +26,21 @@ defmodule FleatureWeb.Components.Links do
       phx-click={@click}
       phx-value-id={@id}
       phx-target={target}
+      data={data}
+    ><%= render_slot(@inner_block) %></a>
+    """
+  end
+
+  def link(assigns) do
+    target = Map.get(assigns, :target, "_blank")
+    class = get_classes(assigns, classes(assigns))
+    data = Map.get(assigns, :data, [])
+
+    ~H"""
+    <a
+      href={@to}
+      class={class}
+      target={target}
       data={data}
     ><%= render_slot(@inner_block) %></a>
     """

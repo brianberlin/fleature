@@ -25,7 +25,11 @@ defmodule FleatureWeb.Components.Type do
   end
 
   def h3(assigns) do
-    class = get_classes(assigns, "mt-4 text-2xl font-extrabold text-gray-700")
+    class =
+      get_classes(
+        assigns,
+        "mt-6 leading-7 text-1xl font-bold text-gray-600 sm:text-3xl sm:truncate"
+      )
 
     ~H"""
     <h3 class={class}><%= render_slot(@inner_block) %></h3>
@@ -42,13 +46,13 @@ defmodule FleatureWeb.Components.Type do
 
   def ul(assigns) do
     ~H"""
-    <ul><%= render_slot(@inner_block) %></ul>
+    <ul class="pl-7 mt-2"><%= render_slot(@inner_block) %></ul>
     """
   end
 
   def li(assigns) do
     ~H"""
-    <li><%= render_slot(@inner_block) %></li>
+    <li class="text-sm text-gray-600 list-disc"><%= render_slot(@inner_block) %></li>
     """
   end
 end

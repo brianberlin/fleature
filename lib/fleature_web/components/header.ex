@@ -24,6 +24,10 @@ defmodule FleatureWeb.Components.Header do
           <span class="sr-only">Open user menu</span>
           <%= if not is_nil(@user) do %>
             <img class="h-8 w-8 rounded-full" src={"https://www.gravatar.com/avatar/#{hashed_email(@user.email)}"} alt="">
+          <% else %>
+            <div class="h-8 w-8 flex justify-center content-center items-center">
+            <.icon type="menu" size="5" />
+            </div>
           <% end %>
         </button>
       </div>
@@ -60,6 +64,8 @@ defmodule FleatureWeb.Components.Header do
   end
 
   def header(assigns) do
+    inner_block = Map.get(assigns, :inner_block, [])
+
     ~H"""
     <div>
       <div>
@@ -75,7 +81,7 @@ defmodule FleatureWeb.Components.Header do
             <% end %>
             <nav class="hidden sm:flex" aria-label="Breadcrumb">
               <ol role="list" class="flex items-center space-x-4">
-                <%= for {breadcrumb, index} <- Enum.with_index(@breadcrumb) do %>
+                <%= for {breadcrumb, index} <- Enum.with_index(Map.get(assigns, :breadcrumb, [])) do %>
                   <li>
                     <div class="flex text-gray-400 items-center">
                       <%= if index !== 0 do %>
@@ -105,7 +111,7 @@ defmodule FleatureWeb.Components.Header do
           <.h2 class="mt-0"><%= @title %></.h2>
         </div>
         <div class="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
-          <%= render_slot(@inner_block) %>
+          <%= render_slot(inner_block) %>
           <.menu user={@user} />
         </div>
       </div>

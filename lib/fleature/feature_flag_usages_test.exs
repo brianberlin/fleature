@@ -8,7 +8,7 @@ defmodule Fleature.FeatureFlagUsagesTest do
     data = %{feature_flag1.name => 1, feature_flag2.name => 2}
 
     Fleature.FeatureFlagUsages.perform(%{
-      args: %{"client_id" => environment_token.client_id, "data" => data}
+      args: %{"client_id" => Base.encode64(environment_token.client_id), "data" => data}
     })
 
     feature_flag_id1 = feature_flag1.id

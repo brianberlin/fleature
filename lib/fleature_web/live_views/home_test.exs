@@ -8,7 +8,7 @@ defmodule FleatureWeb.HomeLiveTest do
       %{organization: %{name: name1}} = user |> with_organization()
       %{organization: %{name: name2}} = user |> with_organization()
 
-      {:ok, view, html} = live(conn, Routes.home_path(conn, :index))
+      {:ok, view, html} = live(conn, Routes.app_path(conn, :index))
       assert html =~ "Organizations"
       assert html =~ name1
       assert html =~ name2
@@ -23,7 +23,7 @@ defmodule FleatureWeb.HomeLiveTest do
 
     test "deleting an organization", %{conn: conn, user: user} do
       %{organization: %{id: id, name: name}} = user |> with_organization()
-      {:ok, view, _html} = live(conn, Routes.home_path(conn, :index))
+      {:ok, view, _html} = live(conn, Routes.app_path(conn, :index))
 
       view
       |> element(".delete_organization_#{id}")

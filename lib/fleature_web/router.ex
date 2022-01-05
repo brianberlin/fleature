@@ -41,6 +41,8 @@ defmodule FleatureWeb.Router do
   scope "/", FleatureWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    live "/app", AppLive, :index
+
     live_session :default do
       live "/organizations/create", OrganizationsLive, :create
       live "/organizations/:organization_id", OrganizationsLive, :view

@@ -44,7 +44,7 @@ defmodule FleatureWeb.FeatureFlagsLive.Edit do
   def handle_event("save", %{"feature_flag" => params}, socket) do
     case FeatureFlags.update_feature_flag(socket.assigns.feature_flag, params) do
       {:ok, feature_flag} ->
-        path = Routes.projects_path(FleatureWeb.Endpoint, :view, feature_flag.project_id)
+        path = Routes.projects_path(FleatureWeb.Endpoint, :view, feature_flag.project.id)
         {:noreply, push_redirect(socket, to: path)}
 
       {:error, changeset} ->
