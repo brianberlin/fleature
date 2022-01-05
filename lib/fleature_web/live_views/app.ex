@@ -18,7 +18,7 @@ defmodule FleatureWeb.AppLive do
   end
 
   def mount(_params, _session, socket) do
-    {:ok, push_redirect(socket, to: Routes.live_path(FleatureWeb.Endpoint, FleatureWeb.HomeLive))}
+    {:ok, push_redirect(socket, to: Routes.home_path(FleatureWeb.Endpoint, :index))}
   end
 
   def render(assigns) do
