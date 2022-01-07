@@ -93,6 +93,12 @@ defmodule FleatureWeb.EnvironmentsLive.View do
             >Delete</.link>
           </:col>
         </.table>
+        <.h2 class="mt-0">Usage</.h2>
+        <.live_component
+          module={FleatureWeb.Components.Chart}
+          id={@environment.id}
+          spec={nil}
+        />
       </.container>
     </div>
     """

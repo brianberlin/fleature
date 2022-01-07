@@ -69,10 +69,9 @@ defmodule FleatureWeb.Components.Header do
     ~H"""
     <div>
       <div>
-        <div class="flex justify-between">
-          <div>
+          <div class="flex justify-between">
             <%= if Map.has_key?(assigns, :back) do %>
-              <nav class="sm:hidden" aria-label="Back">
+              <nav class="flex sm:hidden" aria-label="Back">
                 <%= live_patch(to: @back, class: "flex items-center text-sm font-medium text-gray-400 hover:text-gray-500") do %>
                   <.icon type="solid/chevron-left" size={6} />
                   Back
@@ -103,8 +102,8 @@ defmodule FleatureWeb.Components.Header do
                 <% end %>
               </ol>
             </nav>
+            <.menu user={@user} />
           </div>
-        </div>
       </div>
       <div class="mt-2 md:flex md:items-center md:justify-between">
         <div class="flex-1 min-w-0">
@@ -112,7 +111,6 @@ defmodule FleatureWeb.Components.Header do
         </div>
         <div class="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
           <%= render_slot(inner_block) %>
-          <.menu user={@user} />
         </div>
       </div>
     </div>

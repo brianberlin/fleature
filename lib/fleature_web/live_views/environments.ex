@@ -6,10 +6,16 @@ defmodule FleatureWeb.EnvironmentsLive do
   alias Fleature.Accounts
   alias Fleature.Environments
   alias Fleature.Projects
+  alias FleatureWeb.Components.Chart
 
   def mount(_, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
     {:ok, assign(socket, :user, user)}
+  end
+
+  def handle_event("resized", %{"id" => id, "width" => width}, socket) do
+    Chart.update_chart_size(id, width)
+    {:noreply, socket}
   end
 
   def render(assigns) do
