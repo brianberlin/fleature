@@ -9,7 +9,7 @@ defmodule Fleature.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"MyApp", "contact@example.com"})
+      |> from({"Fleature", "bri@nberl.in"})
       |> subject(subject)
       |> text_body(body)
 

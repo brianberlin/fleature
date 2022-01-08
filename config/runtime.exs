@@ -37,4 +37,10 @@ if config_env() == :prod do
     # IMPORTANT: Or it won't find the DB server
     socket_options: [:inet6],
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+
+  config :fleature, Fleature.Mailer,
+    local: false,
+    adapter: Swoosh.Adapters.Mailjet,
+    api_key: System.get_env("MAILJET_API_KEY"),
+    secret: System.get_env("MAILJET_SECRET")
 end

@@ -26,9 +26,6 @@ config :fleature, FleatureWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :fleature, Fleature.Mailer, adapter: Swoosh.Adapters.Local
 
-# Swoosh API client is needed for adapters other than SMTP.
-config :swoosh, :api_client, false
-
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.12.18",
