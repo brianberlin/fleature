@@ -18,7 +18,13 @@ config :fleature, Fleature.Repo,
 config :fleature, FleatureWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: System.get_env("PORT") || 4000],
+  http: [
+    ip: {127, 0, 0, 1},
+    port: System.get_env("PORT") || 4000,
+    protocol_options: [
+      idle_timeout: 3_600_000
+    ]
+  ],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,

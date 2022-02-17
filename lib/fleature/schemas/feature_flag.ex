@@ -4,6 +4,7 @@ defmodule Fleature.Schemas.FeatureFlag do
 
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:name, :status]}
   schema "feature_flags" do
     field(:name, :string)
     field(:status, :boolean, default: false)
