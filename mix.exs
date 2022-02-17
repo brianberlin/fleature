@@ -67,7 +67,9 @@ defmodule Fleature.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:vega_lite, "~> 0.1.2"},
-      {:hackney, "~> 1.18"}
+      {:hackney, "~> 1.18"},
+      {:sse_phoenix_pubsub, "~> 1.0"},
+      {:cors_plug, "~> 2.0"}
     ]
   end
 

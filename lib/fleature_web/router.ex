@@ -14,6 +14,11 @@ defmodule FleatureWeb.Router do
     plug FleatureWeb.Plugs.DefaultPageTitle
   end
 
+  pipeline :api do
+    plug CORSPlug
+    plug :fetch_session
+  end
+
   scope "/", FleatureWeb do
     pipe_through [:browser]
 
@@ -75,6 +80,13 @@ defmodule FleatureWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+  end
+
+  scope "/api", FleatureWeb do
+    pipe_through :api
+    get "/feature_flags", FeatureFlagController, :list
+    get "/feature_flags/events", FeatureFlagController, :subscribe
+    post "/feature_flags/usage", FeatureFlagController, :usage
   end
 
   if Mix.env() in [:dev, :test] do

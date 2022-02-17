@@ -123,8 +123,8 @@ defmodule FleatureWeb.EnvironmentsLive.View do
         _params,
         %{assigns: %{environment_tokens: environment_tokens}} = socket
       ) do
-    client_id = 16 |> :crypto.strong_rand_bytes() |> Base.encode64()
-    client_secret = 32 |> :crypto.strong_rand_bytes() |> Base.encode64()
+    client_id = 16 |> :crypto.strong_rand_bytes() |> Base.url_encode64()
+    client_secret = 32 |> :crypto.strong_rand_bytes() |> Base.url_encode64()
     hashed_client_secret = Bcrypt.hash_pwd_salt(client_secret)
 
     attrs = %{
