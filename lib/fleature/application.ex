@@ -6,6 +6,7 @@ defmodule Fleature.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      Fleature.PromEx,
       Fleature.Repo,
       FleatureWeb.Telemetry,
       {Phoenix.PubSub, name: Fleature.PubSub},

@@ -91,8 +91,13 @@ defmodule Fleature.FeatureFlags do
     feature_flag = Repo.preload(feature_flag, :environment_tokens)
     message = "#{feature_flag.name}=#{feature_flag.status}"
 
-    Enum.each(feature_flag.environment_tokens, fn %{client_id: client_id} ->
-      Phoenix.PubSub.broadcast(Fleature.PubSub, client_id, {Fleature.PubSub, message})
+    :telemetry.span([:fleature, :feature_flags, :broadcast], %{}, fn ->
+      Enum.each(feature_flag.environment_tokens, fn %{client_id: client_id} ->
+        Phoenix.PubSub.broadcast(Fleature.PubSub, client_id, {Fleature.PubSub, message})
+        :telemetry.execute([:fleature, :feature_flags, :broadcast], %{})
+      end)
+
+      {:ok, %{}}
     end)
 
     {:ok, feature_flag}

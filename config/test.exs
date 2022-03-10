@@ -33,3 +33,5 @@ config :logger, level: :warn
 config :phoenix, :plug_init_mode, :runtime
 
 config :fleature, Oban, queues: false, plugins: false
+
+config :fleature, Fleature.PromEx, disabled: true

@@ -44,6 +44,7 @@ defmodule Fleature.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 2.0"},
+      {:cors_plug, "~> 2.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
@@ -52,6 +53,7 @@ defmodule Fleature.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:gen_smtp, "~> 1.0"},
       {:gettext, "~> 0.18"},
+      {:hackney, "~> 1.18"},
       {:jason, "~> 1.2"},
       {:mix_test_watch, "~> 1.1", only: :dev, runtime: false},
       {:oban, "~> 2.10"},
@@ -63,13 +65,12 @@ defmodule Fleature.MixProject do
       {:phoenix, "~> 1.6.3"},
       {:plug_cowboy, "~> 2.5"},
       {:postgrex, ">= 0.0.0"},
+      {:prom_ex, "~> 1.7.1"},
+      {:sse_phoenix_pubsub, "~> 1.0"},
       {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
-      {:vega_lite, "~> 0.1.2"},
-      {:hackney, "~> 1.18"},
-      {:sse_phoenix_pubsub, "~> 1.0"},
-      {:cors_plug, "~> 2.0"}
+      {:vega_lite, "~> 0.1.2"}
     ]
   end
 

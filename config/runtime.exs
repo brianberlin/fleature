@@ -46,4 +46,11 @@ if config_env() == :prod do
     adapter: Swoosh.Adapters.Mailjet,
     api_key: System.get_env("MAILJET_API_KEY"),
     secret: System.get_env("MAILJET_SECRET")
+
+  config :fleature, Fleature.PromEx,
+    grafana: [
+      host: System.get_env("GRAFANA_HOST"),
+      auth_token: System.get_env("GRAFANA_AUTH_TOKEN"),
+      upload_dashboards_on_start: true
+    ]
 end
