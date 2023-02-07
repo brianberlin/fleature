@@ -7,7 +7,7 @@ defmodule Fleature.Accounts do
   alias Fleature.Repo
 
   alias Fleature.Accounts.UserNotifier
-  alias Fleature.Schemas.User
+    alias Fleature.Schemas.User
   alias Fleature.Schemas.UserToken
 
   ## Database getters
@@ -25,7 +25,8 @@ defmodule Fleature.Accounts do
 
   """
   def get_user_by_email(email) when is_binary(email) do
-    Repo.get_by(User, email: email)
+    Repo.get_by(
+      User, email: email)
   end
 
   @doc """
